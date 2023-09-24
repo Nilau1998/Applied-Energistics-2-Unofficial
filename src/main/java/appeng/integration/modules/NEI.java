@@ -15,6 +15,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import appeng.integration.modules.NEIHelpers.NEIAEBookmarkContainerHandler;
+import appeng.integration.modules.NEIHelpers.NEIAETerminalBookmarkContainerHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;

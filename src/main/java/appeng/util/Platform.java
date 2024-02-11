@@ -29,6 +29,7 @@ import java.util.WeakHashMap;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import appeng.core.stats.ProductionStatsManager;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -1282,6 +1283,10 @@ public class Platform {
                 Stats.ItemsExtracted.addToPlayer(((PlayerSource) src).player, (int) ret.getStackSize());
             }
 
+            if (ret != null) {
+                ProductionStatsManager.getInstance().writeData(possible, -ret.getStackSize());
+            }
+
             return ret;
         }
 
@@ -1315,6 +1320,7 @@ public class Platform {
                 split.decStackSize(itemToAdd);
                 input.setStackSize(itemToAdd);
                 split.add(cell.injectItems(input, Actionable.MODULATE, src));
+                ProductionStatsManager.getInstance().writeData(input, input.getStackSize());
 
                 if (src.isPlayer()) {
                     final long diff = original - split.getStackSize();
@@ -1324,6 +1330,7 @@ public class Platform {
                 return split;
             }
 
+            ProductionStatsManager.getInstance().writeData(input, input.getStackSize());
             final StackType ret = cell.injectItems(input, Actionable.MODULATE, src);
 
             if (src.isPlayer()) {

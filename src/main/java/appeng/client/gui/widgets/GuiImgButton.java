@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import appeng.api.config.ProductionStats;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.StatCollector;
@@ -680,8 +681,19 @@ public class GuiImgButton extends GuiButton implements ITooltip {
                     CraftingMode.IGNORE_MISSING,
                     ButtonToolTips.CraftingModeIgnoreMissing,
                     ButtonToolTips.CraftingModeIgnoreMissingDesc);
-            this.registerApp(16 * 6 + 5, Settings.ACTIONS, ActionItems.EXTRA_OPTIONS, ButtonToolTips.ExtraOptions, "");
-
+            this.registerApp(
+                    16 * 6 + 5,
+                    Settings.ACTIONS,
+                    ActionItems.EXTRA_OPTIONS,
+                    ButtonToolTips.ExtraOptions,
+                    "");
+            this.registerApp(
+                    16 * 5 + 10,
+                    Settings.PRODUCTION_STATS,
+                    ProductionStats.TILE,
+                    ButtonToolTips.ProductionStats,
+                    ButtonToolTips.ProductionStatsDesc
+            );
             this.registerApp(
                     16 * 10 + 6,
                     Settings.CELL_TYPE,

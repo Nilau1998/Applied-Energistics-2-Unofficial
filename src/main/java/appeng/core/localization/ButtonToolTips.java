@@ -150,6 +150,8 @@ public enum ButtonToolTips {
     SaveSearchStringNo,
     CraftingStatus,
     CraftingStatusDesc,
+    ProductionStats,
+    ProductionStatsDesc,
     ToggleMolecularAssemblers,
     ToggleMolecularAssemblersDescOn,
     ToggleMolecularAssemblersDescOff,

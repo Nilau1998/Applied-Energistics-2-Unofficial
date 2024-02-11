@@ -23,6 +23,7 @@ import appeng.api.config.CondenserOutput;
 import appeng.api.config.CraftingStatus;
 import appeng.api.config.PowerMultiplier;
 import appeng.api.config.PowerUnits;
+import appeng.api.config.ProductionStats;
 import appeng.api.config.SearchBoxMode;
 import appeng.api.config.Settings;
 import appeng.api.config.TerminalStyle;
@@ -152,10 +153,11 @@ public final class AEConfig extends Configuration implements IConfigurableObject
         this.settings.registerSetting(Settings.SEARCH_MODE, SearchBoxMode.AUTOSEARCH);
         this.settings.registerSetting(Settings.SAVE_SEARCH, YesNo.NO);
         this.settings.registerSetting(Settings.CRAFTING_STATUS, CraftingStatus.TILE);
+        this.settings.registerSetting(Settings.PRODUCTION_STATS, ProductionStats.TILE);
 
         this.spawnChargedChance = (float) (1.0
                 - this.get("worldGen", "spawnChargedChance", 1.0 - this.spawnChargedChance)
-                        .getDouble(1.0 - this.spawnChargedChance));
+                .getDouble(1.0 - this.spawnChargedChance));
         this.minMeteoriteDistance = this.get("worldGen", "minMeteoriteDistance", this.minMeteoriteDistance)
                 .getInt(this.minMeteoriteDistance);
         this.meteoriteClusterChance = this.get("worldGen", "meteoriteClusterChance", this.meteoriteClusterChance)

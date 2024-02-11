@@ -70,6 +70,8 @@ public enum Settings {
 
     CRAFTING_MODE(EnumSet.allOf(CraftingMode.class)),
 
+    PRODUCTION_STATS(EnumSet.allOf(ProductionStats.class)),
+
     CELL_TYPE(EnumSet.allOf(CellType.class)),
 
     STICKY_MODE(EnumSet.of(YesNo.YES, YesNo.NO)),

@@ -1,15 +1,15 @@
 package appeng.util.ringbuffer;
 
-import appeng.core.stats.ProductionStatsManager.TimeIntervals;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagFloat;
-import net.minecraft.nbt.NBTTagList;
-
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 import java.util.OptionalDouble;
+
+import net.minecraft.nbt.NBTTagFloat;
+import net.minecraft.nbt.NBTTagList;
+
+import appeng.core.stats.ProductionStatsManager.TimeIntervals;
 
 public class RecursiveRingBuffer {
 
@@ -68,7 +68,9 @@ public class RecursiveRingBuffer {
         return this.childBuffer != null;
     }
 
-    public TimeIntervals getInterval() { return this.interval; }
+    public TimeIntervals getInterval() {
+        return this.interval;
+    }
 
     public NBTTagList getBuffer() {
         final NBTTagList values = new NBTTagList();

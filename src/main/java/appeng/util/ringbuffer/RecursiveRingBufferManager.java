@@ -1,18 +1,18 @@
 package appeng.util.ringbuffer;
 
-import appeng.core.stats.ProductionStatsManager.TimeIntervals;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+
+import appeng.core.stats.ProductionStatsManager.TimeIntervals;
+
 public class RecursiveRingBufferManager {
+
     private final RecursiveRingBuffer buffer;
     private static final int bufferSize = 20;
-
 
     public RecursiveRingBufferManager() {
         List<TimeIntervals> intervals = new ArrayList<>(Arrays.asList(TimeIntervals.class.getEnumConstants()));

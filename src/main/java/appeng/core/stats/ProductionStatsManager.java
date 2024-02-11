@@ -1,11 +1,12 @@
 package appeng.core.stats;
 
+import java.util.HashMap;
+
 import appeng.api.storage.data.IAEStack;
 import appeng.util.ringbuffer.RecursiveRingBufferManager;
 
-import java.util.HashMap;
-
 public final class ProductionStatsManager {
+
     public enum TimeIntervals {
         FIVE_SECONDS,
         ONE_MINUTE,

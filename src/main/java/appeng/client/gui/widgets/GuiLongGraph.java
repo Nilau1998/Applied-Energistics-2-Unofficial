@@ -1,12 +1,13 @@
 package appeng.client.gui.widgets;
 
-import appeng.client.gui.AEBaseGui;
-
 import java.util.ArrayList;
+
+import appeng.client.gui.AEBaseGui;
 
 public class GuiLongGraph extends GuiGraph<ArrayList<Float>> {
 
     private long currentScale = 100;
+
     protected GuiLongGraph(AEBaseGui graphHost, int w, int h) {
         super(graphHost, w, h, new ArrayList<Float>());
     }

@@ -1,13 +1,9 @@
 package appeng.client.gui.widgets;
 
+import java.util.ArrayList;
+
 import appeng.client.gui.implementations.GuiProductionStats;
 import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class GuiProductionStatsGraph {
 
@@ -38,13 +34,18 @@ public class GuiProductionStatsGraph {
         for (int i = 0; i < graphs.size(); i++) {
             double sinVal = (i + 1) / 25.0;
             graphs.get(i).addData((float) (GRAPH_HEIGHT * Math.sin(sinVal * bla)));
-            graphs.get(i).drawFG(GRAPH_X_ORIGIN - (GRAPH_TEXTURE_WIDTH / 2) + 1, GRAPH_Y_ORIGIN - (GRAPH_TEXTURE_HEIGHT), mouseX, mouseY);
+            graphs.get(i).drawFG(
+                    GRAPH_X_ORIGIN - (GRAPH_TEXTURE_WIDTH / 2) + 1,
+                    GRAPH_Y_ORIGIN - (GRAPH_TEXTURE_HEIGHT),
+                    mouseX,
+                    mouseY);
         }
         bla += 1;
     }
 
     public void drawBG(int offsetX, int offsetY, int mouseX, int mouseY) {
-        int offsetXAdjusted = this.side.equals(PanelSide.LEFT) ? offsetX - (GRAPH_TEXTURE_WIDTH / 2) + 1: offsetX + (GRAPH_TEXTURE_WIDTH / 2) - 1;
+        int offsetXAdjusted = this.side.equals(PanelSide.LEFT) ? offsetX - (GRAPH_TEXTURE_WIDTH / 2) + 1
+                : offsetX + (GRAPH_TEXTURE_WIDTH / 2) - 1;
         int offsetYAdjusted = offsetY - (GRAPH_TEXTURE_HEIGHT / 3);
         parent.bindTexture("guis/productionstatsgraph.png");
         parent.drawTexturedModalRect(offsetXAdjusted, offsetYAdjusted, 0, 0, GRAPH_TEXTURE_WIDTH, GRAPH_TEXTURE_HEIGHT);

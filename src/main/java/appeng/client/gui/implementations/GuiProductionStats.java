@@ -1,5 +1,12 @@
 package appeng.client.gui.implementations;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.entity.player.InventoryPlayer;
+
 import appeng.client.gui.AEBaseGui;
 import appeng.client.gui.widgets.GuiProductionStatsIntervals;
 import appeng.client.gui.widgets.GuiProductionStatsPanel;
@@ -13,12 +20,6 @@ import appeng.parts.reporting.PartCraftingTerminal;
 import appeng.parts.reporting.PartPatternTerminal;
 import appeng.parts.reporting.PartPatternTerminalEx;
 import appeng.parts.reporting.PartTerminal;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.entity.player.InventoryPlayer;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class GuiProductionStats extends AEBaseGui {
 
@@ -53,6 +54,7 @@ public class GuiProductionStats extends AEBaseGui {
             this.OriginalGui = GuiBridge.GUI_PATTERN_TERMINAL_EX;
         }
     }
+
     protected GuiProductionStats(final ContainerProductionStats container) {
         super(container);
         this.container = container;

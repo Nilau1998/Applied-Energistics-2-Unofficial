@@ -1,20 +1,20 @@
 package appeng.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+
+import org.junit.Test;
 
 import appeng.core.stats.ProductionStatsManager.TimeIntervals;
 import appeng.util.ringbuffer.RecursiveRingBuffer;
 import appeng.util.ringbuffer.RecursiveRingBufferManager;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /**
- *  Tests for {@link appeng.util.ringbuffer.RecursiveRingBufferManager}
+ * Tests for {@link appeng.util.ringbuffer.RecursiveRingBufferManager}
  */
 public final class RecursiveRingBufferTest {
 
@@ -67,6 +67,7 @@ public final class RecursiveRingBufferTest {
         System.out.println("Adding 3,300,000 values took " + (end - start) + "ms");
         assertTrue(end - start < 200);
     }
+
     @Test
     public void testRRBManager_tagListSpeed() {
         RecursiveRingBuffer buffer = manager.getBuffer(TimeIntervals.FIVE_SECONDS);

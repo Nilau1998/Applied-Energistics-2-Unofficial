@@ -2,8 +2,6 @@ package appeng.integration.modules.NEIHelpers;
 
 import java.util.regex.Pattern;
 
-import appeng.client.gui.implementations.GuiProductionStats;
-import appeng.client.gui.widgets.GuiProductionStatsPanel;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -11,6 +9,7 @@ import net.minecraft.util.EnumChatFormatting;
 import appeng.client.gui.implementations.GuiCraftConfirm;
 import appeng.client.gui.implementations.GuiCraftingStatus;
 import appeng.client.gui.implementations.GuiMEMonitorable;
+import appeng.client.gui.implementations.GuiProductionStats;
 import appeng.client.gui.widgets.IDropToFillTextField;
 import codechicken.nei.api.INEIGuiAdapter;
 
@@ -45,7 +44,7 @@ public class NEIGuiHandler extends INEIGuiAdapter {
         } else if (gui instanceof GuiMEMonitorable) {
             return ((GuiMEMonitorable) gui).hideItemPanelSlot(x, y, w, h);
         } else if (gui instanceof GuiProductionStats) {
-            return ((GuiProductionStats) gui).hideItemPanelSlots(x, y, w ,h);
+            return ((GuiProductionStats) gui).hideItemPanelSlots(x, y, w, h);
         }
 
         return false;

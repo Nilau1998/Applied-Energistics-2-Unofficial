@@ -113,7 +113,7 @@ public class GuiMEMonitorable extends AEBaseMEGui implements ISortSource, IConfi
     }
 
     public GuiMEMonitorable(final InventoryPlayer inventoryPlayer, final ITerminalHost te,
-                            final ContainerMEMonitorable c) {
+            final ContainerMEMonitorable c) {
 
         super(c);
 

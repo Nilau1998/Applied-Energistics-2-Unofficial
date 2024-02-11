@@ -157,7 +157,7 @@ public final class AEConfig extends Configuration implements IConfigurableObject
 
         this.spawnChargedChance = (float) (1.0
                 - this.get("worldGen", "spawnChargedChance", 1.0 - this.spawnChargedChance)
-                .getDouble(1.0 - this.spawnChargedChance));
+                        .getDouble(1.0 - this.spawnChargedChance));
         this.minMeteoriteDistance = this.get("worldGen", "minMeteoriteDistance", this.minMeteoriteDistance)
                 .getInt(this.minMeteoriteDistance);
         this.meteoriteClusterChance = this.get("worldGen", "meteoriteClusterChance", this.meteoriteClusterChance)

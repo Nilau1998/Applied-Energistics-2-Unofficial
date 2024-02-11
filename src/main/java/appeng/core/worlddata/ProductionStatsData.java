@@ -1,22 +1,24 @@
 package appeng.core.worlddata;
 
-import appeng.api.storage.data.IAEItemStack;
-import appeng.api.storage.data.IAEStack;
-import appeng.core.AELog;
-import appeng.core.stats.ProductionStatsManager;
-import appeng.util.item.AEItemStack;
-import appeng.util.item.AEStack;
-import appeng.util.ringbuffer.RecursiveRingBufferManager;
-import com.google.common.base.Preconditions;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
-
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+
+import javax.annotation.Nonnull;
+
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
+
+import com.google.common.base.Preconditions;
+
+import appeng.api.storage.data.IAEItemStack;
+import appeng.api.storage.data.IAEStack;
+import appeng.core.AELog;
+import appeng.core.stats.ProductionStatsManager;
+import appeng.util.item.AEItemStack;
+import appeng.util.ringbuffer.RecursiveRingBufferManager;
 
 public final class ProductionStatsData implements IProductionStatsData, IOnWorldStartable, IOnWorldStoppable {
 
@@ -32,7 +34,8 @@ public final class ProductionStatsData implements IProductionStatsData, IOnWorld
 
     @Override
     public void serializeBufferMap() {
-        HashMap<IAEStack, RecursiveRingBufferManager> productionDataBuffers = ProductionStatsManager.getInstance().getProductionStatsDataBuffers();
+        HashMap<IAEStack, RecursiveRingBufferManager> productionDataBuffers = ProductionStatsManager.getInstance()
+                .getProductionStatsDataBuffers();
         synchronized (ProductionStatsData.class) {
             final NBTTagCompound data = this.loadProductionStatsData();
             for (IAEStack stack : productionDataBuffers.keySet()) {

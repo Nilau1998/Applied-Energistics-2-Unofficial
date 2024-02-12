@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Random;
 
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
 
 import org.lwjgl.opengl.GL11;
 
@@ -27,15 +26,6 @@ public abstract class GuiGraph<COLLECTION extends Collection<?>> {
     }
 
     public void drawFG(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {
-        /*
-         * int size = graphData.size(); int height = this.height; int lastRelativeHeight = getRelativeHeight(0, height);
-         * for (int i = 0; i < size; i++) { int relativeHeight = getRelativeHeight(i, height);
-         * graphHost.drawHorizontalLine(offsetX + i, offsetX + i, offsetY + height - relativeHeight, this.COLOR); if
-         * (Math.abs(relativeHeight - lastRelativeHeight) >= 3) { graphHost.drawVerticalLine( offsetX + i,
-         * verticalBlimpStartY(offsetY, height, relativeHeight, relativeHeight - lastRelativeHeight),
-         * verticalBlimpEndY(offsetY, height, relativeHeight, relativeHeight - lastRelativeHeight), this.COLOR); }
-         * lastRelativeHeight = relativeHeight; }
-         */
         drawGraph(offsetX, offsetY);
         renderTooltip(offsetX, offsetY, mouseX, mouseY);
     }
@@ -46,39 +36,18 @@ public abstract class GuiGraph<COLLECTION extends Collection<?>> {
         float f1 = (float) (this.COLOR >> 8 & 255) / 255.0F;
         float f2 = (float) (this.COLOR & 255) / 255.0F;
 
-        Tessellator tessellator = Tessellator.instance;
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
         GL11.glColor4f(f, f1, f2, f3);
-        tessellator.startDrawingQuads();
 
         int size = graphData.size();
-        int height = this.height;
-        int lastRelativeHeight = getRelativeHeight(0, height);
-
+        GL11.glBegin(GL11.GL_LINE_STRIP);
         for (int i = 0; i < size; i++) {
-            int relativeHeight = getRelativeHeight(i, height);
-            // x-axis
-            int x = offsetX + i;
-            int y = offsetY + height - relativeHeight;
-            tessellator.addVertex((double) x, (double) y + 1, 0.0D);
-            tessellator.addVertex((double) x + 1, (double) y + 1, 0.0D);
-            tessellator.addVertex((double) x + 1, (double) x + 1, 0.0D);
-            tessellator.addVertex((double) x, (double) x + 1, 0.0D);
-            // y-axis
-            if (Math.abs(relativeHeight - lastRelativeHeight) >= 3) {
-                int startY = verticalBlimpStartY(offsetY, height, relativeHeight, relativeHeight - lastRelativeHeight);
-                int endY = verticalBlimpEndY(offsetY, height, relativeHeight, relativeHeight - lastRelativeHeight);
-                tessellator.addVertex((double) x, (double) endY, 0.0D);
-                tessellator.addVertex((double) x + 1, (double) endY, 0.0D);
-                tessellator.addVertex((double) x + 1, (double) startY + 1, 0.0D);
-                tessellator.addVertex((double) x, (double) startY + 1, 0.0D);
-            }
-            lastRelativeHeight = relativeHeight;
+            GL11.glVertex2f(offsetX + i, offsetY + this.height - getRelativeHeight(i, this.height));
         }
+        GL11.glEnd();
 
-        tessellator.draw();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);
     }

@@ -23,7 +23,7 @@ public class GuiProductionStatsGraph {
     public GuiProductionStatsGraph(GuiProductionStats parent, PanelSide side) {
         this.parent = parent;
         this.side = side;
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3000; i++) {
             graphs.add(new GuiLongGraph(parent, GRAPH_WIDTH, GRAPH_HEIGHT));
         }
     }
@@ -33,7 +33,8 @@ public class GuiProductionStatsGraph {
     public void drawFG(int offsetX, int offsetY, int mouseX, int mouseY) {
         for (int i = 0; i < graphs.size(); i++) {
             double sinVal = (i + 1) / 25.0;
-            graphs.get(i).addData((float) (GRAPH_HEIGHT * Math.sin(sinVal * bla)));
+            // graphs.get(i).addData((float) (GRAPH_HEIGHT * Math.sin(sinVal * bla)));
+            graphs.get(i).addData(GRAPH_HEIGHT / (1 + i));
             graphs.get(i).drawFG(
                     GRAPH_X_ORIGIN - (GRAPH_TEXTURE_WIDTH / 2) + 1,
                     GRAPH_Y_ORIGIN - (GRAPH_TEXTURE_HEIGHT),

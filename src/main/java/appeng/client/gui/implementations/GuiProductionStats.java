@@ -13,8 +13,6 @@ import appeng.client.gui.widgets.GuiProductionStatsPanel;
 import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
 import appeng.container.implementations.ContainerProductionStats;
 import appeng.core.sync.GuiBridge;
-import appeng.core.sync.network.NetworkHandler;
-import appeng.core.sync.packets.PacketSwitchGuis;
 import appeng.helpers.WirelessTerminalGuiObject;
 import appeng.parts.reporting.PartCraftingTerminal;
 import appeng.parts.reporting.PartPatternTerminal;
@@ -65,8 +63,7 @@ public class GuiProductionStats extends AEBaseGui {
 
     @Override
     public void initGui() {
-        this.xSize = this.leftPanel.widgetX;
-        this.ySize = this.leftPanel.widgetY;
+        recalculateScreenSize();
         super.initGui();
         this.leftPanel.initGui();
         this.rightPanel.initGui();
@@ -74,9 +71,6 @@ public class GuiProductionStats extends AEBaseGui {
         for (GuiButton button : this.buttonList) {
             this.buttonMap.put(button.displayString, button);
         }
-        // Recalculate xSize & ySize as the GUI initially thinks its smaller
-        this.xSize = this.leftPanel.widgetX + this.rightPanel.widgetX;
-        this.ySize = this.leftPanel.widgetY + this.rightPanel.widgetY;
     }
 
     @Override
@@ -153,9 +147,8 @@ public class GuiProductionStats extends AEBaseGui {
         return this.buttonList;
     }
 
-    public void switchToOriginalGUI() {
-        if (this.OriginalGui != null) {
-            NetworkHandler.instance.sendToServer(new PacketSwitchGuis(this.OriginalGui));
-        }
+    protected void recalculateScreenSize() {
+        this.xSize = this.leftPanel.widgetX + this.rightPanel.widgetX;
+        this.ySize = this.leftPanel.widgetY + this.rightPanel.widgetY + this.intervals.getHeight();
     }
 }

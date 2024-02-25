@@ -34,7 +34,7 @@ public class GuiProductionStatsPanel {
     }
 
     public void drawBG(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {
-        graph.drawBG(offsetX, offsetY, mouseX, mouseY);
-        list.drawBG(offsetX, offsetY);
+        graph.drawBG(offsetX, offsetY + this.widgetY - this.graph.getHeight(), mouseX, mouseY);
+        list.drawBG(offsetX, offsetY + this.widgetY);
     }
 }

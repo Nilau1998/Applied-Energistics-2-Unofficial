@@ -200,7 +200,7 @@ public class Platform {
     /**
      * This displays the value for encoded longs ( double *100 )
      *
-     * @param n      to be formatted long value
+     * @param n      to be formatted long valuee
      * @param isRate if true it adds a /t to the formatted string
      * @return formatted long value
      */

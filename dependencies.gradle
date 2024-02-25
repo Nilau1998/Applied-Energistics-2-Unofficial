@@ -21,6 +21,8 @@ dependencies {
     // Uncomment to add thermal expansion + foundation for testing
 //    runtimeOnlyNonPublishable('curse.maven:thermal-foundation-222880:2388753')
 //    runtimeOnlyNonPublishable('curse.maven:thermal-expansion-69163:2388759')
+    runtimeOnlyNonPublishable('com.github.GTNewHorizons:Translocators:1.2.1:dev')
+    runtimeOnlyNonPublishable('com.github.GTNewHorizons:StorageDrawers:1.13.3-GTNH:dev')
 
     testImplementation('junit:junit:4.12')
     functionalTestImplementation(platform('org.junit:junit-bom:5.9.2'))

@@ -16,21 +16,22 @@ public class GuiProductionStatsList {
         this.side = side;
     }
 
-    public void drawFG(int offsetX, int offsetY, int mouseX, int mouseY) {
+    public void drawFG(final int globalOffsetX, final int globalOffsetY, final int offsetX, final int offsetY,
+            final int mouseX, final int mouseY) {
 
     }
 
-    public void drawBG(int offsetX, int offsetY) {
-        int offsetXAdjusted = this.side.equals(PanelSide.LEFT) ? offsetX : offsetX + LIST_TEXTURE_WIDTH;
+    public void drawBG(final int offsetX, final int offsetY) {
+        int offsetXAdjusted = this.side.equals(PanelSide.PRODUCTION) ? offsetX : offsetX + LIST_TEXTURE_WIDTH;
         parent.bindTexture("guis/productionstatslist.png");
         parent.drawTexturedModalRect(offsetXAdjusted, offsetY, 0, 0, LIST_TEXTURE_WIDTH, LIST_TEXTURE_HEIGHT);
     }
 
-    public int getWidth() {
+    public static int getWidth() {
         return LIST_TEXTURE_WIDTH;
     }
 
-    public int getHeight() {
+    public static int getHeight() {
         return LIST_TEXTURE_HEIGHT;
     }
 }

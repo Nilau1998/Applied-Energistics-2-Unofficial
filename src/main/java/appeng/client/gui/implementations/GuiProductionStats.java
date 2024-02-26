@@ -8,7 +8,6 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 
 import appeng.client.gui.AEBaseGui;
-import appeng.client.gui.widgets.GuiProductionStatsIntervals;
 import appeng.client.gui.widgets.GuiProductionStatsPanel;
 import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
 import appeng.container.implementations.ContainerProductionStats;
@@ -24,65 +23,61 @@ public class GuiProductionStats extends AEBaseGui {
     private final ContainerProductionStats container;
     private final GuiProductionStatsPanel leftPanel;
     private final GuiProductionStatsPanel rightPanel;
-    private final GuiProductionStatsIntervals intervals;
     private final Map<String, GuiButton> buttonMap = new HashMap<>();
-    private GuiBridge OriginalGui;
+    private GuiBridge originalGui;
 
     public GuiProductionStats(final InventoryPlayer inventoryPlayer, final Object te) {
         this(new ContainerProductionStats(inventoryPlayer, te));
 
         // Remember where I came from
         if (te instanceof WirelessTerminalGuiObject) {
-            this.OriginalGui = GuiBridge.GUI_WIRELESS_TERM;
+            this.originalGui = GuiBridge.GUI_WIRELESS_TERM;
         }
 
         if (te instanceof PartTerminal) {
-            this.OriginalGui = GuiBridge.GUI_ME;
+            this.originalGui = GuiBridge.GUI_ME;
         }
 
         if (te instanceof PartCraftingTerminal) {
-            this.OriginalGui = GuiBridge.GUI_CRAFTING_TERMINAL;
+            this.originalGui = GuiBridge.GUI_CRAFTING_TERMINAL;
         }
 
         if (te instanceof PartPatternTerminal) {
-            this.OriginalGui = GuiBridge.GUI_PATTERN_TERMINAL;
+            this.originalGui = GuiBridge.GUI_PATTERN_TERMINAL;
         }
 
         if (te instanceof PartPatternTerminalEx) {
-            this.OriginalGui = GuiBridge.GUI_PATTERN_TERMINAL_EX;
+            this.originalGui = GuiBridge.GUI_PATTERN_TERMINAL_EX;
         }
     }
 
     protected GuiProductionStats(final ContainerProductionStats container) {
         super(container);
         this.container = container;
-        this.leftPanel = new GuiProductionStatsPanel(this, PanelSide.LEFT);
-        this.rightPanel = new GuiProductionStatsPanel(this, PanelSide.RIGHT);
-        this.intervals = new GuiProductionStatsIntervals(this);
+        this.leftPanel = new GuiProductionStatsPanel(this, PanelSide.PRODUCTION);
+        this.rightPanel = new GuiProductionStatsPanel(this, PanelSide.CONSUMPTION);
     }
 
     @Override
     public void initGui() {
         recalculateScreenSize();
         super.initGui();
-        this.leftPanel.initGui();
-        this.rightPanel.initGui();
-        this.intervals.initGui();
+        leftPanel.initGui();
+        rightPanel.initGui();
         for (GuiButton button : this.buttonList) {
-            this.buttonMap.put(button.displayString, button);
+            buttonMap.put(button.displayString, button);
         }
     }
 
     @Override
     public void drawFG(int offsetX, int offsetY, int mouseX, int mouseY) {
-        this.leftPanel.drawFG(offsetX, offsetY, mouseX, mouseY);
+        leftPanel.drawFG(offsetX, offsetY, mouseX, mouseY);
     }
 
     @Override
     public void drawBG(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {
-        this.leftPanel.drawBG(offsetX, offsetY, mouseX, mouseY);
-        this.rightPanel.drawBG(offsetX, offsetY, mouseX, mouseY);
-        this.intervals.drawBG(offsetX, offsetY, mouseX, mouseY);
+        leftPanel.drawBG(offsetX, offsetY, mouseX, mouseY);
+        rightPanel.drawBG(offsetX, offsetY, mouseX, mouseY);
     }
 
     @Override
@@ -126,14 +121,14 @@ public class GuiProductionStats extends AEBaseGui {
 
     public boolean hideItemPanelSlots(int tx, int ty, int tw, int th) {
         int rw = 0;
-        int rh = this.ySize;
+        int rh = ySize;
 
         if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
             return false;
         }
 
-        int rx = this.guiLeft + this.xSize;
-        int ry = this.guiTop;
+        int rx = guiLeft + xSize;
+        int ry = guiTop;
 
         rw += rx;
         rh += ry;
@@ -148,7 +143,7 @@ public class GuiProductionStats extends AEBaseGui {
     }
 
     protected void recalculateScreenSize() {
-        this.xSize = this.leftPanel.widgetX + this.rightPanel.widgetX;
-        this.ySize = this.leftPanel.widgetY + this.rightPanel.widgetY + this.intervals.getHeight();
+        xSize = leftPanel.getWidth() + rightPanel.getWidth();
+        ySize = Math.max(leftPanel.getHeight(), rightPanel.getWidth());
     }
 }

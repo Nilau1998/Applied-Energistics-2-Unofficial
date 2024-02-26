@@ -29,7 +29,9 @@ public class GuiProductionStatsGraph {
                 GRAPH_TEXTURE_BORDER,
                 GuiProductionStatsIntervals.getHeight() + GRAPH_TEXTURE_BORDER,
                 GRAPH_WIDTH,
-                GRAPH_HEIGHT);
+                GRAPH_HEIGHT,
+                20,
+                8);
         this.graph.toggleGridDrawing(true);
         this.graph.toggleLabelDrawing(true);
         this.graph.recalculateXAxisLabels(120f);
@@ -51,17 +53,19 @@ public class GuiProductionStatsGraph {
                 HashMap<IAEStack, RecursiveRingBufferManager> bufferManagerMap = ProductionStatsManager.getInstance()
                         .getProductionStatsDataBuffers();
                 for (IAEStack key : bufferManagerMap.keySet()) {
-                    float val = mouseY; // bufferManagerMap.get(key).getBuffer(TimeIntervals.FIVE_SECONDS).average() +
-                                        // bla;
+                    bla += 1;
+                    if (bla < 0) {
+                        bla = 0;
+                    }
+                    float val = bla;
                     if (val > graph.getMaxYScaleValue()) {
                         graph.recalculateYAxisLabels(val);
                     }
                     graph.addData(key, val);
                 }
-                graph.draw(offsetX, offsetY, mouseX, mouseY);
+                graph.draw(offsetX - parent.getGuiLeft(), offsetY - parent.getGuiTop(), mouseX, mouseY);
             }
         }
-        bla += 1;
     }
 
     public void drawBG(final int offsetX, final int offsetY) {

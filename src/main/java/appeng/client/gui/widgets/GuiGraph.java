@@ -65,7 +65,7 @@ public class GuiGraph {
 
         // https://stats.stackexchange.com/a/281165
         private float scale(float x) {
-            return (graphHeight * x) / currentMax;
+            return ((graphHeight - GRAPH_LABELSPACE_Y) * x) / currentMax;
         }
     }
 
@@ -77,14 +77,14 @@ public class GuiGraph {
     private final HashMap<Object, Graph> graphs = new HashMap<>();
     private boolean doGridDrawing = false;
     private boolean doLabelDrawing = false;
+    private final int graphNumTicksX;
+    private final int graphNumTicksY;
     private final float graphTickSize;
     // Little lines going over the main axis
     private static final int GRAPH_TICK_OVERLAP = 2;
     // Decenter values, so we can push the grid a bit off for ticks/labels
     private static final int GRAPH_LABELSPACE_X = 11 + GRAPH_TICK_OVERLAP;
     private static final int GRAPH_LABELSPACE_Y = 6 + GRAPH_TICK_OVERLAP;
-    private static final int GRAPH_NUM_TICKS_X = 20;
-    private static final int GRAPH_NUM_TICKS_Y = 8;
     private final String[] labelsX;
     private final String[] labelsY;
     private float maxYScaleValue = 0;
@@ -93,21 +93,24 @@ public class GuiGraph {
     /**
      * Origin shall be set from top left of whatever window/screen is being targeted.
      */
-    protected GuiGraph(AEBaseGui parent, int originX, int originY, int graphWidth, int graphHeight) {
+    protected GuiGraph(AEBaseGui parent, int originX, int originY, int graphWidth, int graphHeight, int numTicksX,
+            int numTicksY) {
         this.parent = parent;
         this.originX = originX;
         this.originY = originY;
         this.graphWidth = graphWidth;
         this.graphHeight = graphHeight;
-        this.graphTickSize = (float) graphWidth / GRAPH_NUM_TICKS_X;
-        this.labelsX = new String[GRAPH_NUM_TICKS_X];
-        this.labelsY = new String[GRAPH_NUM_TICKS_Y];
+        this.graphNumTicksX = numTicksX;
+        this.graphNumTicksY = numTicksY;
+        this.graphTickSize = (float) graphWidth / graphNumTicksX;
+        this.labelsX = new String[graphNumTicksX];
+        this.labelsY = new String[graphNumTicksY];
     }
 
     public void draw(int offsetX, int offsetY, final int mouseX, final int mouseY) {
         // Normalize to origin
-        offsetX = -parent.getGuiLeft() + offsetX + originX;
-        offsetY = -parent.getGuiTop() + offsetY + originY;
+        offsetX += originX;
+        offsetY += originY;
 
         if (doGridDrawing) {
             drawGrid(offsetX, offsetY);
@@ -198,7 +201,7 @@ public class GuiGraph {
     // Sets a new upper limit starting from 0
     public void recalculateYAxisLabels(float newMax) {
         this.maxYScaleValue = newMax;
-        float stepSize = maxYScaleValue / GRAPH_NUM_TICKS_Y;
+        float stepSize = maxYScaleValue / graphNumTicksY;
         for (int i = 0; i < labelsY.length; i++) {
             this.labelsY[i] = formatLong((long) (stepSize * i));
         }
@@ -207,7 +210,7 @@ public class GuiGraph {
     // Sets a new upper limit starting from 0
     public void recalculateXAxisLabels(float newMax) {
         this.maxXScaleValue = newMax;
-        float stepSize = maxXScaleValue / GRAPH_NUM_TICKS_X;
+        float stepSize = maxXScaleValue / graphNumTicksX;
         for (int i = 0; i < labelsX.length; i++) {
             this.labelsX[i] = formatLong((long) (stepSize * i));
         }

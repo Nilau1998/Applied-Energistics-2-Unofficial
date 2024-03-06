@@ -30,11 +30,8 @@ public class GuiProductionStatsGraph {
                 GuiProductionStatsIntervals.getHeight() + GRAPH_TEXTURE_BORDER,
                 GRAPH_WIDTH,
                 GRAPH_HEIGHT,
-                20,
+                22,
                 8);
-        this.graph.toggleGridDrawing(true);
-        this.graph.toggleLabelDrawing(true);
-        this.graph.recalculateXAxisLabels(120f);
 
         HashMap<IAEStack, RecursiveRingBufferManager> bufferManagerMap = ProductionStatsManager.getInstance()
                 .getProductionStatsDataBuffers();
@@ -44,16 +41,20 @@ public class GuiProductionStatsGraph {
         }
     }
 
-    public void initGui() {}
+    public void initGui() {
+        this.graph.toggleGridDrawing(true);
+        this.graph.toggleLabelDrawing(true);
+        this.graph.recalculateXAxisLabels(120f);
+    }
 
     public void drawFG(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {
-        int offsetXAdjusted = this.side.equals(PanelSide.PRODUCTION) ? offsetX : offsetX + GRAPH_TEXTURE_WIDTH;
-        switch (this.side) {
+        int offsetXAdjusted = side.equals(PanelSide.PRODUCTION) ? offsetX : offsetX + GRAPH_TEXTURE_WIDTH;
+        switch (side) {
             case PRODUCTION -> {
                 HashMap<IAEStack, RecursiveRingBufferManager> bufferManagerMap = ProductionStatsManager.getInstance()
                         .getProductionStatsDataBuffers();
                 for (IAEStack key : bufferManagerMap.keySet()) {
-                    bla += 1;
+                    bla = mouseX;
                     if (bla < 0) {
                         bla = 0;
                     }
@@ -69,7 +70,7 @@ public class GuiProductionStatsGraph {
     }
 
     public void drawBG(final int offsetX, final int offsetY) {
-        int offsetXAdjusted = this.side.equals(PanelSide.PRODUCTION) ? offsetX : offsetX + GRAPH_TEXTURE_WIDTH;
+        int offsetXAdjusted = side.equals(PanelSide.PRODUCTION) ? offsetX : offsetX + GRAPH_TEXTURE_WIDTH;
         parent.bindTexture("guis/productionstatsgraph.png");
         parent.drawTexturedModalRect(offsetXAdjusted, offsetY, 0, 0, GRAPH_TEXTURE_WIDTH, GRAPH_TEXTURE_HEIGHT);
     }

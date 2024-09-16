@@ -13,6 +13,7 @@ package appeng.core.sync;
 import java.lang.reflect.Constructor;
 import java.util.List;
 
+import appeng.container.implementations.ContainerProductionStats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -213,6 +214,9 @@ public enum GuiBridge implements IGuiHandler {
             SecurityPermissions.BUILD),
 
     GUI_CRAFTING_STATUS(ContainerCraftingStatus.class, ITerminalHost.class, GuiHostType.ITEM_OR_WORLD,
+            SecurityPermissions.CRAFT),
+
+    GUI_PRODUCTION_STATS(ContainerProductionStats.class, ITerminalHost.class, GuiHostType.ITEM_OR_WORLD,
             SecurityPermissions.CRAFT),
 
     GUI_RENAMER(ContainerRenamer.class, ICustomNameObject.class, GuiHostType.WORLD, SecurityPermissions.BUILD),

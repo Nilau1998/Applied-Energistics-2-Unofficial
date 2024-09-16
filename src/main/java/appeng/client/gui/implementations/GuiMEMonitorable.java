@@ -98,6 +98,7 @@ public class GuiMEMonitorable extends AEBaseMEGui implements ISortSource, IConfi
     private GuiImgButton terminalStyleBox;
     private GuiImgButton searchStringSave;
     private GuiImgButton typeFilter;
+    private GuiImgButton productionStatsTab;
     private boolean isAutoFocus = false;
     private int currentMouseX = 0;
     private int currentMouseY = 0;
@@ -173,6 +174,10 @@ public class GuiMEMonitorable extends AEBaseMEGui implements ISortSource, IConfi
 
         if (btn == this.craftingStatusBtn || btn == this.craftingStatusImgBtn) {
             NetworkHandler.instance.sendToServer(new PacketSwitchGuis(GuiBridge.GUI_CRAFTING_STATUS));
+        }
+
+        if (btn == this.productionStatsTab) {
+            NetworkHandler.instance.sendToServer(new PacketSwitchGuis(GuiBridge.GUI_PRODUCTION_STATS));
         }
 
         if (btn instanceof GuiImgButton iBtn) {
@@ -306,6 +311,14 @@ public class GuiMEMonitorable extends AEBaseMEGui implements ISortSource, IConfi
                             AEConfig.instance.settings.getSetting(Settings.TERMINAL_STYLE)));
             offset += 20;
         }
+
+        this.buttonList.add(
+                this.productionStatsTab = new GuiImgButton(
+                        this.guiLeft - 18,
+                        offset,
+                        Settings.PRODUCTION_STATS,
+                        AEConfig.instance.settings.getSetting(Settings.PRODUCTION_STATS)));
+        offset += 20;
 
         if (this.viewCell || this instanceof GuiWirelessTerm) {
             if (AEConfig.instance.getConfigManager().getSetting(Settings.CRAFTING_STATUS)

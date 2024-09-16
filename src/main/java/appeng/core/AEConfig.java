@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 
+import appeng.api.config.ProductionStats;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
@@ -156,6 +157,7 @@ public final class AEConfig extends Configuration implements IConfigurableObject
         this.settings.registerSetting(Settings.SEARCH_MODE, SearchBoxMode.AUTOSEARCH);
         this.settings.registerSetting(Settings.SAVE_SEARCH, YesNo.NO);
         this.settings.registerSetting(Settings.CRAFTING_STATUS, CraftingStatus.TILE);
+        this.settings.registerSetting(Settings.PRODUCTION_STATS, ProductionStats.TILE);
         this.settings.registerSetting(Settings.CRAFTING_SORT_BY, CraftingSortOrder.NAME);
         this.settings.registerSetting(Settings.SORT_DIRECTION, SortDir.ASCENDING);
         this.settings.registerSetting(Settings.TERMINAL_FONT_SIZE, TerminalFontSize.SMALL);

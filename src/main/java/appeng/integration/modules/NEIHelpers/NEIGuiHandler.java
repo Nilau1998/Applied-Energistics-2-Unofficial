@@ -1,5 +1,6 @@
 package appeng.integration.modules.NEIHelpers;
 
+import appeng.client.gui.implementations.GuiProductionStats;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -36,6 +37,8 @@ public class NEIGuiHandler extends INEIGuiAdapter {
             return ((GuiCraftConfirm) gui).hideItemPanelSlot(x, y, w, h);
         } else if (gui instanceof GuiMEMonitorable) {
             return ((GuiMEMonitorable) gui).hideItemPanelSlot(x, y, w, h);
+        } else if (gui instanceof GuiProductionStats) {
+            return ((GuiProductionStats) gui).hideItemPanelSlots(x, y, w, h);
         }
 
         return false;

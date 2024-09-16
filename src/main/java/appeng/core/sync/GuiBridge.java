@@ -13,7 +13,6 @@ package appeng.core.sync;
 import java.lang.reflect.Constructor;
 import java.util.List;
 
-import appeng.container.implementations.ContainerProductionStats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -77,6 +76,7 @@ import appeng.container.implementations.ContainerPatternTermEx;
 import appeng.container.implementations.ContainerPatternValueAmount;
 import appeng.container.implementations.ContainerPriority;
 import appeng.container.implementations.ContainerPriorityCard;
+import appeng.container.implementations.ContainerProductionStats;
 import appeng.container.implementations.ContainerQNB;
 import appeng.container.implementations.ContainerQuartzKnife;
 import appeng.container.implementations.ContainerRenamer;

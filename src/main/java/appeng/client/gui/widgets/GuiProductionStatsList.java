@@ -17,7 +17,7 @@ public class GuiProductionStatsList {
     }
 
     public void drawFG(final int globalOffsetX, final int globalOffsetY, final int offsetX, final int offsetY,
-                       final int mouseX, final int mouseY) {
+            final int mouseX, final int mouseY) {
 
     }
 

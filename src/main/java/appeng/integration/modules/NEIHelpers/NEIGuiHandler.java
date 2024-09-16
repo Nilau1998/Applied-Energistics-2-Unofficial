@@ -1,6 +1,5 @@
 package appeng.integration.modules.NEIHelpers;
 
-import appeng.client.gui.implementations.GuiProductionStats;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -9,6 +8,7 @@ import net.minecraftforge.fluids.FluidStack;
 import appeng.client.gui.implementations.GuiCraftConfirm;
 import appeng.client.gui.implementations.GuiCraftingStatus;
 import appeng.client.gui.implementations.GuiMEMonitorable;
+import appeng.client.gui.implementations.GuiProductionStats;
 import appeng.client.gui.widgets.IDropToFillTextField;
 import codechicken.nei.api.INEIGuiAdapter;
 import codechicken.nei.recipe.StackInfo;

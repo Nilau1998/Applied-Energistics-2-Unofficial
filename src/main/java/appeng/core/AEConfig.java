@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 
-import appeng.api.config.ProductionStats;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
@@ -25,6 +24,7 @@ import appeng.api.config.CraftingSortOrder;
 import appeng.api.config.CraftingStatus;
 import appeng.api.config.PowerMultiplier;
 import appeng.api.config.PowerUnits;
+import appeng.api.config.ProductionStats;
 import appeng.api.config.SearchBoxMode;
 import appeng.api.config.Settings;
 import appeng.api.config.SortDir;

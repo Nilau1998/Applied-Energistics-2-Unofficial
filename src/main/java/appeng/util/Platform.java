@@ -29,7 +29,6 @@ import java.util.WeakHashMap;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import appeng.core.stats.ProductionStatsManager;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -113,6 +112,7 @@ import appeng.core.AEConfig;
 import appeng.core.AELog;
 import appeng.core.AppEng;
 import appeng.core.features.AEFeature;
+import appeng.core.stats.ProductionStatsManager;
 import appeng.core.stats.Stats;
 import appeng.core.sync.GuiBridge;
 import appeng.core.sync.GuiHostType;

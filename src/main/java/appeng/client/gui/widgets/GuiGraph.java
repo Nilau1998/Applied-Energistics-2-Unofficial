@@ -92,7 +92,7 @@ public class GuiGraph {
     private float maxXLabelStringWidth = 0;
 
     protected GuiGraph(AEBaseGui parent, int originX, int originY, int graphWidth, int graphHeight, int numTicksX,
-                       int numTicksY) {
+            int numTicksY) {
         this.parent = parent;
         this.originX = originX;
         this.originY = originY;

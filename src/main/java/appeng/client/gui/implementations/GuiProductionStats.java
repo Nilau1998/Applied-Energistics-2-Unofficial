@@ -1,24 +1,23 @@
 package appeng.client.gui.implementations;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.entity.player.InventoryPlayer;
+
 import appeng.client.gui.AEBaseGui;
 import appeng.client.gui.widgets.GuiProductionStatsIntervals;
 import appeng.client.gui.widgets.GuiProductionStatsPanel;
 import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
 import appeng.container.implementations.ContainerProductionStats;
 import appeng.core.sync.GuiBridge;
-import appeng.core.sync.network.NetworkHandler;
-import appeng.core.sync.packets.PacketSwitchGuis;
 import appeng.helpers.WirelessTerminalGuiObject;
 import appeng.parts.reporting.PartCraftingTerminal;
 import appeng.parts.reporting.PartPatternTerminal;
 import appeng.parts.reporting.PartPatternTerminalEx;
 import appeng.parts.reporting.PartTerminal;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.entity.player.InventoryPlayer;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class GuiProductionStats extends AEBaseGui {
 
@@ -53,6 +52,7 @@ public class GuiProductionStats extends AEBaseGui {
             this.OriginalGui = GuiBridge.GUI_PATTERN_TERMINAL_EX;
         }
     }
+
     protected GuiProductionStats(final ContainerProductionStats container) {
         super(container);
         this.container = container;
@@ -63,8 +63,7 @@ public class GuiProductionStats extends AEBaseGui {
 
     @Override
     public void initGui() {
-        this.xSize = this.leftPanel.widgetX;
-        this.ySize = this.leftPanel.widgetY;
+        recalculateScreenSize();
         super.initGui();
         this.leftPanel.initGui();
         this.rightPanel.initGui();
@@ -72,9 +71,6 @@ public class GuiProductionStats extends AEBaseGui {
         for (GuiButton button : this.buttonList) {
             this.buttonMap.put(button.displayString, button);
         }
-        // Recalculate xSize & ySize as the GUI initially thinks its smaller
-        this.xSize = this.leftPanel.widgetX + this.rightPanel.widgetX;
-        this.ySize = this.leftPanel.widgetY + this.rightPanel.widgetY;
     }
 
     @Override
@@ -151,9 +147,8 @@ public class GuiProductionStats extends AEBaseGui {
         return this.buttonList;
     }
 
-    public void switchToOriginalGUI() {
-        if (this.OriginalGui != null) {
-            NetworkHandler.instance.sendToServer(new PacketSwitchGuis(this.OriginalGui));
-        }
+    protected void recalculateScreenSize() {
+        this.xSize = this.leftPanel.widgetX + this.rightPanel.widgetX;
+        this.ySize = this.leftPanel.widgetY + this.rightPanel.widgetY + this.intervals.getHeight();
     }
 }

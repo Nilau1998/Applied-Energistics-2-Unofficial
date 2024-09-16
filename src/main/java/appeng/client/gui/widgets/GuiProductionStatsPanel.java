@@ -3,6 +3,7 @@ package appeng.client.gui.widgets;
 import appeng.client.gui.implementations.GuiProductionStats;
 
 public class GuiProductionStatsPanel {
+
     private final GuiProductionStats parent;
 
     public final PanelSide side;
@@ -32,9 +33,8 @@ public class GuiProductionStatsPanel {
         graph.drawFG(offsetX, offsetY, mouseX, mouseY);
     }
 
-
     public void drawBG(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {
-        graph.drawBG(offsetX, offsetY, mouseX, mouseY);
-        list.drawBG(offsetX, offsetY);
+        graph.drawBG(offsetX, offsetY + this.widgetY - this.graph.getHeight(), mouseX, mouseY);
+        list.drawBG(offsetX, offsetY + this.widgetY);
     }
 }

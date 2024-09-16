@@ -1,11 +1,12 @@
 package appeng.core.stats;
 
+import java.util.HashMap;
+
 import appeng.api.storage.data.IAEStack;
 import appeng.util.ringbuffer.RecursiveRingBufferManager;
 
-import java.util.HashMap;
-
 public final class ProductionStatsManager {
+
     public enum TimeIntervals {
         FIVE_SECONDS,
         ONE_MINUTE,
@@ -16,6 +17,7 @@ public final class ProductionStatsManager {
         TWO_FIFTY_HOUR
     }
 
+    public boolean newBufferAdded = false;
     private final HashMap<IAEStack, RecursiveRingBufferManager> productionStatsDataBuffers;
 
     private static ProductionStatsManager INSTANCE;
@@ -34,6 +36,7 @@ public final class ProductionStatsManager {
     public void writeData(IAEStack stack, float value) {
         if (this.productionStatsDataBuffers.get(stack) == null) {
             this.productionStatsDataBuffers.put(stack, new RecursiveRingBufferManager());
+            this.newBufferAdded = true;
         }
         this.productionStatsDataBuffers.get(stack).writeToBuffer(value);
     }

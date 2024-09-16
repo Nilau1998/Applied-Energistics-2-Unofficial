@@ -21,10 +21,9 @@ public class GuiProductionStatsList {
     }
 
     public void drawBG(int offsetX, int offsetY) {
-        int offsetXAdjusted = this.side.equals(PanelSide.LEFT) ? offsetX - (LIST_TEXTURE_WIDTH / 2) + 1: offsetX + (LIST_TEXTURE_WIDTH / 2) - 1;
-        int offsetYAdjusted = offsetY + (LIST_TEXTURE_HEIGHT / 2) - 2;
+        int offsetXAdjusted = this.side.equals(PanelSide.LEFT) ? offsetX : offsetX + LIST_TEXTURE_WIDTH;
         parent.bindTexture("guis/productionstatslist.png");
-        parent.drawTexturedModalRect(offsetXAdjusted, offsetYAdjusted, 0, 0, LIST_TEXTURE_WIDTH, LIST_TEXTURE_HEIGHT);
+        parent.drawTexturedModalRect(offsetXAdjusted, offsetY, 0, 0, LIST_TEXTURE_WIDTH, LIST_TEXTURE_HEIGHT);
     }
 
     public int getWidth() {

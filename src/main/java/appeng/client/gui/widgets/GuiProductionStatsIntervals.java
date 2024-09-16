@@ -10,8 +10,6 @@ public class GuiProductionStatsIntervals {
 
     public static final int INTERVALS_TEXTURE_WIDTH = 202;
     public static final int INTERVALS_TEXTURE_HEIGHT = 28;
-    private static final int INTERVALS_OFFSET_X = 0;
-    private static final int INTERVALS_OFFSET_Y = 126;
 
     private GuiButton fiveSeconds;
     private GuiButton oneMinute;
@@ -26,8 +24,8 @@ public class GuiProductionStatsIntervals {
     }
 
     public void initGui() {
-        int xOffset = this.parent.getGuiLeft() + INTERVALS_OFFSET_X + 4;
-        int yOffset = this.parent.getGuiTop() + INTERVALS_OFFSET_Y + 4;
+        int xOffset = this.parent.getGuiLeft() + 4;
+        int yOffset = this.parent.getGuiTop() + 4;
 
         int indent = 28;
         int buttonWidth = 27;
@@ -60,30 +58,20 @@ public class GuiProductionStatsIntervals {
         this.parent.getButtonList().add(this.twoFiftyHour);
     }
 
-    public void drawFG(int offsetX, int offsetY, int mouseX, int mouseY) {
+    public void drawFG(final int offsetX, final int offsetY, int mouseX, int mouseY) {
 
     }
 
-    public void drawBG(int offsetX, int offsetY, int mouseX, int mouseY) {
-
-        int offsetAdjustedX = offsetX + INTERVALS_OFFSET_X;
-        int offsetAdjustedY = offsetY + INTERVALS_OFFSET_Y;
-
+    public void drawBG(final int offsetX, final int offsetY) {
         parent.bindTexture("guis/productionstatsintervals.png");
-        parent.drawTexturedModalRect(
-                offsetAdjustedX,
-                offsetAdjustedY,
-                0,
-                0,
-                INTERVALS_TEXTURE_WIDTH,
-                INTERVALS_TEXTURE_HEIGHT);
+        parent.drawTexturedModalRect(offsetX, offsetY, 0, 0, INTERVALS_TEXTURE_WIDTH, INTERVALS_TEXTURE_HEIGHT);
     }
 
-    public int getWidth() {
+    public static int getWidth() {
         return INTERVALS_TEXTURE_WIDTH;
     }
 
-    public int getHeight() {
+    public static int getHeight() {
         return INTERVALS_TEXTURE_HEIGHT;
     }
 }

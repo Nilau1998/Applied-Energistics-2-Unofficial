@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import appeng.core.stats.ProductionStatsManager.TimeIntervals;
 import net.minecraft.client.renderer.OpenGlHelper;
 
 import org.lwjgl.opengl.GL11;
@@ -70,6 +71,7 @@ public class GuiGraph {
     }
 
     private final AEBaseGui parent;
+    private TimeIntervals timeInterval = TimeIntervals.ONE_MINUTE;
     private final int originX;
     private final int originY;
     private final int graphHeight;
@@ -81,14 +83,13 @@ public class GuiGraph {
     private final int graphNumTicksY;
     private final float graphTickSizeX;
     private final float graphTickSizeY;
-    private static final int GRAPH_TICK_OVERLAP = 2;
+    private static final int LABEL_SPACING = 2;
     // Decenter values, so we can push the grid a bit off for ticks/labels
-    private static final int GRAPH_LABELSPACE_X = 11 + GRAPH_TICK_OVERLAP;
-    private static final int GRAPH_LABELSPACE_Y = 6 + GRAPH_TICK_OVERLAP;
+    private static final int GRAPH_LABELSPACE_X = 11 + LABEL_SPACING;
+    private static final int GRAPH_LABELSPACE_Y = 6 + LABEL_SPACING;
     private final String[] labelsX;
     private final String[] labelsY;
     private float maxYScaleValue = 0;
-    private float maxXScaleValue = 0;
     private float maxXLabelStringWidth = 0;
 
     protected GuiGraph(AEBaseGui parent, int originX, int originY, int graphWidth, int graphHeight, int numTicksX,
@@ -100,7 +101,7 @@ public class GuiGraph {
         this.graphHeight = graphHeight;
         this.graphNumTicksX = numTicksX;
         this.graphNumTicksY = numTicksY;
-        this.graphTickSizeX = (float) graphWidth / graphNumTicksX;
+        this.graphTickSizeX = (float) (graphWidth - GRAPH_LABELSPACE_X) / graphNumTicksX;
         this.graphTickSizeY = (float) graphHeight / graphNumTicksY;
         this.labelsX = new String[graphNumTicksX];
         this.labelsY = new String[graphNumTicksY];
@@ -128,21 +129,21 @@ public class GuiGraph {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GL11.glColor4f(255f / 255f, 150f / 255f, 150f / 255f, 255f / 255f);
+        GL11.glColor4f(1f, 0f, 0f, 0.5f);
 
         offsetX += GRAPH_LABELSPACE_X;
         offsetY -= GRAPH_LABELSPACE_Y;
 
         GL11.glBegin(GL11.GL_LINES);
         // Vertical (left to right)
-        for (int i = 0; i < graphWidth - graphTickSizeX; i += graphTickSizeX) {
-            GL11.glVertex2f(offsetX + i, offsetY + graphTickSizeX - GRAPH_TICK_OVERLAP);
-            GL11.glVertex2f(offsetX + i, offsetY + graphHeight + GRAPH_TICK_OVERLAP);
+        for (float i = 0; i < graphWidth - GRAPH_LABELSPACE_X; i += graphTickSizeX) {
+            GL11.glVertex2f(offsetX + i, offsetY + graphHeight); // Bottom
+            GL11.glVertex2f(offsetX + i, offsetY + GRAPH_LABELSPACE_Y); // Top
         }
         // Horizontal (top to bottom)
-        for (int i = graphHeight; i > 0; i -= graphTickSizeY) {
-            GL11.glVertex2f(offsetX - GRAPH_TICK_OVERLAP, offsetY + i);
-            GL11.glVertex2f(offsetX + graphWidth - graphTickSizeY - GRAPH_TICK_OVERLAP, offsetY + i);
+        for (float i = graphHeight; i > 0; i -= graphTickSizeY) {
+            GL11.glVertex2f(offsetX, offsetY + i); // Left
+            GL11.glVertex2f(offsetX + graphWidth - GRAPH_LABELSPACE_X, offsetY + i); // Right
         }
         GL11.glEnd();
 
@@ -158,44 +159,43 @@ public class GuiGraph {
             return;
         }
 
-        final int labelColor = 0x969696;
+        final int labelColor = 0x969616;
         final float scale = 0.4f;
 
         GL11.glPushMatrix();
-        GL11.glScalef(scale, scale, 0);
+        GL11.glScalef(scale, scale, 0f);
+
+        // Y-Axis
+        for (int i = 0; i < labelsY.length; i++) {
+            float stringLength = parent.getFontRenderer().getStringWidth(labelsY[i]) * scale;
+            float xPos = offsetX + GRAPH_LABELSPACE_X - LABEL_SPACING - stringLength;
+            float yPos = offsetY + graphHeight - 10f - (i * graphTickSizeY);
+            parent.getFontRenderer()
+                    .drawString(labelsY[i], Math.round(xPos / scale), Math.round(yPos / scale), labelColor);
+        }
+
         // X-Axis
-        double totalTranslation = 0;
         for (int i = 0; i < labelsX.length; i++) {
-            float stringLength = parent.getFontRenderer().getStringWidth(labelsX[i]) / 2f;
-            double translation = Math.floor(graphTickSizeX / scale) - Math.floor((stringLength / 2f) / scale);
-            // Move first label back
-            if (i == 0) {
-                translation = -Math.floor((stringLength / 2f) / scale);
-            }
-            GL11.glTranslated(translation, 0d, 0d);
-            totalTranslation += translation;
+            float stringLength = parent.getFontRenderer().getStringWidth(labelsX[i]);
+            float halfStringLength = stringLength / 2f;
+
+            // Center current label
+            GL11.glTranslated(-halfStringLength, 0d, 0d);
+
             parent.getFontRenderer().drawString(
                     labelsX[i],
                     Math.round((offsetX + GRAPH_LABELSPACE_X) / scale),
                     Math.round((offsetY + graphHeight - GRAPH_LABELSPACE_Y + 3) / scale),
-                    labelColor);
-            translation = Math.floor((stringLength / 2f) / scale);
-            totalTranslation += translation;
-            GL11.glTranslated(translation, 0d, 0d);
-        }
-        GL11.glTranslated(-totalTranslation, 0d, 0d);
-        // Y-Axis
-        for (int i = 0; i < labelsY.length; i++) {
-            float stringLength = parent.getFontRenderer().getStringWidth(labelsY[i]) * scale;
-            float xPos = offsetX + GRAPH_LABELSPACE_X - GRAPH_TICK_OVERLAP - stringLength - 1;
-            float yPos = offsetY + graphHeight - 10 - (i * graphTickSizeY) - (i / 1.1f);
-            parent.getFontRenderer()
-                    .drawString(labelsY[i], Math.round(xPos / scale), Math.round(yPos / scale), labelColor);
+                    labelColor
+            );
+
+            // Move back to start position and translate to next label
+            GL11.glTranslated(halfStringLength + graphTickSizeX / scale, 0d, 0d);
         }
         GL11.glPopMatrix();
 
         // Reset color
-        GL11.glColor4f(1, 1, 1, 1);
+        GL11.glColor4f(1f, 1f, 1f, 1f);
     }
 
     public void addGraph(Object key, int color) {
@@ -215,12 +215,39 @@ public class GuiGraph {
         }
     }
 
+    public void determineIntervalLabels() {
+        switch(this.timeInterval) {
+            case FIVE_SECONDS:
+                setXAxisLabels(5);
+                break;
+            case ONE_MINUTE:
+                setXAxisLabels(60);
+                break;
+            case TEN_MINUTE:
+                setXAxisLabels(10*60);
+                break;
+            case ONE_HOUR:
+                setXAxisLabels(60*60);
+                break;
+            case TEN_HOUR:
+                setXAxisLabels(10*60*60);
+                break;
+            case FIFTY_HOUR:
+                setXAxisLabels(50*60*60);
+                break;
+            case TWO_FIFTY_HOUR:
+                setXAxisLabels(250*60*60);
+                break;
+            default:
+                setXAxisLabels(0);
+        }
+    }
+
     // Sets a new upper limit starting from 0
-    public void recalculateXAxisLabels(float newMax) {
-        maxXScaleValue = newMax;
-        float stepSize = maxXScaleValue / graphNumTicksX;
+    public void setXAxisLabels(float seconds) {
+        float stepSize = seconds / (graphNumTicksX - 1);
         for (int i = 0; i < labelsX.length; i++) {
-            labelsX[i] = formatLong((long) (stepSize * i));
+            labelsX[i] = String.format("%.1f", stepSize * i);
             float strWidth = parent.getFontRenderer().getStringWidth(labelsX[i]);
             if (strWidth > maxXLabelStringWidth) {
                 maxXLabelStringWidth = strWidth;
@@ -240,16 +267,17 @@ public class GuiGraph {
         return maxYScaleValue;
     }
 
-    public float getMaxXScaleValue() {
-        return maxXScaleValue;
-    }
-
     public int getWidth() {
         return graphWidth;
     }
 
     public int getHeight() {
         return graphHeight;
+    }
+
+    public void setTimeInterval(TimeIntervals interval) {
+        this.timeInterval = interval;
+        determineIntervalLabels();
     }
 
     private void renderTooltip(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {
@@ -260,9 +288,7 @@ public class GuiGraph {
         double p = (double) n;
         String level = "";
         if (p > 1000) {
-            p = ((double) n) / 100;
-
-            final String[] preFixes = { "k", "M", "G", "T", "P", "T", "P", "E", "Z", "Y" };
+            final String[] preFixes = {"k", "M", "G", "T", "P", "T", "P", "E", "Z", "Y"};
 
             int offset = 0;
             while (p > 1000 && offset < preFixes.length) {

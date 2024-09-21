@@ -7,6 +7,7 @@ import appeng.client.gui.implementations.GuiProductionStats;
 import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
 import appeng.core.stats.ProductionStatsManager;
 import appeng.util.ringbuffer.RecursiveRingBufferManager;
+import org.lwjgl.input.Keyboard;
 
 public class GuiProductionStatsGraph {
 
@@ -30,7 +31,7 @@ public class GuiProductionStatsGraph {
                 GuiProductionStatsIntervals.getHeight() + GRAPH_TEXTURE_BORDER,
                 GRAPH_WIDTH,
                 GRAPH_HEIGHT,
-                22,
+                19,
                 8);
 
         HashMap<IAEStack, RecursiveRingBufferManager> bufferManagerMap = ProductionStatsManager.getInstance()
@@ -44,17 +45,24 @@ public class GuiProductionStatsGraph {
     public void initGui() {
         this.graph.toggleGridDrawing(true);
         this.graph.toggleLabelDrawing(true);
-        this.graph.recalculateXAxisLabels(120f);
+    }
+
+    public void checkKeyPresses() {
+        if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+            bla += 50.0f; // Increase bla
+        } else if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
+            bla -= 50.0f; // Decrease bla
+        }
     }
 
     public void drawFG(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {
-        int offsetXAdjusted = side.equals(PanelSide.PRODUCTION) ? offsetX : offsetX + GRAPH_TEXTURE_WIDTH;
+        checkKeyPresses();
         switch (side) {
             case PRODUCTION -> {
                 HashMap<IAEStack, RecursiveRingBufferManager> bufferManagerMap = ProductionStatsManager.getInstance()
                         .getProductionStatsDataBuffers();
                 for (IAEStack key : bufferManagerMap.keySet()) {
-                    bla = mouseX;
+
                     if (bla < 0) {
                         bla = 0;
                     }
@@ -81,5 +89,9 @@ public class GuiProductionStatsGraph {
 
     public static int getHeight() {
         return GRAPH_TEXTURE_HEIGHT;
+    }
+
+    public GuiGraph getGraph() {
+        return this.graph;
     }
 }

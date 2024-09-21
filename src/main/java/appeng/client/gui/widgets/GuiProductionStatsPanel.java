@@ -1,6 +1,7 @@
 package appeng.client.gui.widgets;
 
 import appeng.client.gui.implementations.GuiProductionStats;
+import appeng.core.stats.ProductionStatsManager.TimeIntervals;
 
 public class GuiProductionStatsPanel {
 
@@ -34,6 +35,8 @@ public class GuiProductionStatsPanel {
         graph.initGui();
         if (intervals != null) {
             intervals.initGui();
+            getGraph().setTimeInterval(TimeIntervals.ONE_MINUTE);
+            getGraph().recalculateYAxisLabels(0f);
         }
     }
 
@@ -50,6 +53,10 @@ public class GuiProductionStatsPanel {
         if (intervals != null) {
             intervals.drawBG(offsetX, offsetY);
         }
+    }
+
+    public GuiGraph getGraph() {
+        return this.graph.getGraph();
     }
 
     public int getWidth() {

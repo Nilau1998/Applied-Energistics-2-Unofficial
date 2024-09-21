@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import appeng.core.stats.ProductionStatsManager.TimeIntervals;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 
@@ -89,31 +90,38 @@ public class GuiProductionStats extends AEBaseGui {
         }
         switch (btnClicked.displayString) {
             case "5s": {
-                System.out.println(btnClicked.displayString);
+                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.FIVE_SECONDS);
+                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.FIVE_SECONDS);
                 break;
             }
             case "1m": {
-                System.out.println(btnClicked.displayString);
+                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.ONE_MINUTE);
+                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.ONE_MINUTE);
                 break;
             }
             case "10m": {
-                System.out.println(btnClicked.displayString);
+                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.TEN_MINUTE);
+                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.TEN_MINUTE);
                 break;
             }
             case "1h": {
-                System.out.println(btnClicked.displayString);
+                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.ONE_HOUR);
+                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.ONE_HOUR);
                 break;
             }
             case "10h": {
-                System.out.println(btnClicked.displayString);
+                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.TEN_HOUR);
+                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.TEN_HOUR);
                 break;
             }
             case "50h": {
-                System.out.println(btnClicked.displayString);
+                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.FIFTY_HOUR);
+                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.FIFTY_HOUR);
                 break;
             }
             case "250h": {
-                System.out.println(btnClicked.displayString);
+                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.TWO_FIFTY_HOUR);
+                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.TWO_FIFTY_HOUR);
                 break;
             }
         }

@@ -2,12 +2,13 @@ package appeng.client.gui.widgets;
 
 import java.util.HashMap;
 
+import appeng.core.stats.ProductionStatsDataManager;
+import appeng.core.stats.productionstats.DataBufferHandler;
+import org.lwjgl.input.Keyboard;
+
 import appeng.api.storage.data.IAEStack;
 import appeng.client.gui.implementations.GuiProductionStats;
 import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
-import appeng.core.stats.ProductionStatsManager;
-import appeng.util.ringbuffer.RecursiveRingBufferManager;
-import org.lwjgl.input.Keyboard;
 
 public class GuiProductionStatsGraph {
 
@@ -20,7 +21,6 @@ public class GuiProductionStatsGraph {
     private static final int GRAPH_TEXTURE_BORDER = 8;
     private static final int GRAPH_HEIGHT = 95;
     private static final int GRAPH_WIDTH = 222;
-    private float bla = 0;
 
     public GuiProductionStatsGraph(GuiProductionStats parent, PanelSide side) {
         this.parent = parent;
@@ -33,10 +33,9 @@ public class GuiProductionStatsGraph {
                 GRAPH_HEIGHT,
                 19,
                 8);
-
-        HashMap<IAEStack, RecursiveRingBufferManager> bufferManagerMap = ProductionStatsManager.getInstance()
-                .getProductionStatsDataBuffers();
-
+        ProductionStatsDataManager.getInstance().registerConsumer(this::updateGraphData);
+        HashMap<IAEStack, DataBufferHandler> bufferManagerMap = ProductionStatsDataManager.getInstance()
+                .getDataBuffers();
         for (IAEStack key : bufferManagerMap.keySet()) {
             graph.addGraph(key, bufferManagerMap.get(key).GRAPH_COLOR);
         }
@@ -47,31 +46,16 @@ public class GuiProductionStatsGraph {
         this.graph.toggleLabelDrawing(true);
     }
 
-    public void checkKeyPresses() {
-        if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-            bla += 50.0f; // Increase bla
-        } else if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
-            bla -= 50.0f; // Decrease bla
+    public void updateGraphData() {
+        // TODO: Implement this method
+        for (IAEStack key : ProductionStatsDataManager.getInstance().getDataBuffers().keySet()) {
+            graph.addData(key, 50);
         }
     }
 
     public void drawFG(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {
-        checkKeyPresses();
         switch (side) {
             case PRODUCTION -> {
-                HashMap<IAEStack, RecursiveRingBufferManager> bufferManagerMap = ProductionStatsManager.getInstance()
-                        .getProductionStatsDataBuffers();
-                for (IAEStack key : bufferManagerMap.keySet()) {
-
-                    if (bla < 0) {
-                        bla = 0;
-                    }
-                    float val = bla;
-                    if (val > graph.getMaxYScaleValue()) {
-                        graph.recalculateYAxisLabels(val);
-                    }
-                    graph.addData(key, val);
-                }
                 graph.draw(offsetX - parent.getGuiLeft(), offsetY - parent.getGuiTop(), mouseX, mouseY);
             }
         }

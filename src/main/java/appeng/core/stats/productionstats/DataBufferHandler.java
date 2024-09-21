@@ -1,39 +1,42 @@
-package appeng.util.ringbuffer;
+package appeng.core.stats.productionstats;
+
+import appeng.core.stats.ProductionStatsDataManager.TimeIntervals;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagInt;
+import net.minecraft.nbt.NBTTagList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-
-import appeng.core.stats.ProductionStatsManager.TimeIntervals;
-
-public class RecursiveRingBufferManager {
-
-    private final RecursiveRingBuffer buffer;
+public class DataBufferHandler {
+    private final DataBuffer dataBuffer;
     public int GRAPH_COLOR = generateColor();
-    private static final int bufferSize = 20;
+    private static final int bufferSize = 20; // TODO: Change this?
 
-    public RecursiveRingBufferManager() {
+    public DataBufferHandler() {
         List<TimeIntervals> intervals = new ArrayList<>(Arrays.asList(TimeIntervals.class.getEnumConstants()));
-        this.buffer = new RecursiveRingBuffer(intervals, bufferSize);
+        this.dataBuffer = new DataBuffer(intervals, bufferSize);
     }
 
-    public void writeToBuffer(float value) {
-        this.buffer.writeToBuffer(value);
+    public void writeToBuffer(double value) {
+        this.dataBuffer.writeToBuffer(value);
     }
 
-    public RecursiveRingBuffer getBuffer(TimeIntervals interval) {
+    public void tickBuffer() {
+        this.dataBuffer.tickBuffer();
+    }
+
+    public DataBuffer getBuffer(TimeIntervals interval) {
         // Is top what we want?
-        if (this.buffer.getInterval().equals(interval)) {
-            return this.buffer;
+        if (this.dataBuffer.getInterval().equals(interval)) {
+            return this.dataBuffer;
         }
         // Going top to bottom
-        RecursiveRingBuffer buffer = this.buffer;
+        DataBuffer buffer = this.dataBuffer;
         while (buffer.hasChild()) {
-            buffer = buffer.getChild();
+            buffer = buffer.getChildBuffer();
             if (buffer.getInterval().equals(interval)) {
                 return buffer;
             }
@@ -44,8 +47,10 @@ public class RecursiveRingBufferManager {
     public NBTTagCompound packBuffers() {
         final NBTTagCompound data = new NBTTagCompound();
         for (TimeIntervals interval : TimeIntervals.values()) {
-            RecursiveRingBuffer buffer = getBuffer(interval);
-            data.setTag(interval.name(), buffer.getBuffer());
+            DataBuffer buffer = getBuffer(interval);
+            data.setTag(interval.name(), buffer.getDataNBT());
+            data.setInteger(interval.name() + "TickCounter", buffer.getTickCounter());
+            data.setDouble(interval.name() + "SummedData", buffer.getSummedData());
         }
         data.setInteger("GraphColor", this.GRAPH_COLOR);
         return data;
@@ -54,7 +59,9 @@ public class RecursiveRingBufferManager {
     public void unpackBuffers(NBTTagCompound data) {
         for (TimeIntervals interval : TimeIntervals.values()) {
             NBTTagList values = (NBTTagList) data.getTag(interval.name());
-            getBuffer(interval).setBuffer(values);
+            getBuffer(interval).setDataFromNBT(values);
+            getBuffer(interval).setTickCounter(data.getInteger(interval.name() + "TickCounter"));
+            getBuffer(interval).setSummedData(data.getDouble(interval.name() + "SummedData"));
         }
         this.GRAPH_COLOR = data.getInteger("GraphColor");
     }

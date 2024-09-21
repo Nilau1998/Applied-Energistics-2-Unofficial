@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 import javax.annotation.Nonnull;
 
+import appeng.core.stats.ProductionStatsDataManager;
+import appeng.core.stats.productionstats.DataBufferHandler;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -16,9 +18,7 @@ import com.google.common.base.Preconditions;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
 import appeng.core.AELog;
-import appeng.core.stats.ProductionStatsManager;
 import appeng.util.item.AEItemStack;
-import appeng.util.ringbuffer.RecursiveRingBufferManager;
 
 public final class ProductionStatsData implements IProductionStatsData, IOnWorldStartable, IOnWorldStoppable {
 
@@ -34,8 +34,8 @@ public final class ProductionStatsData implements IProductionStatsData, IOnWorld
 
     @Override
     public void serializeBufferMap() {
-        HashMap<IAEStack, RecursiveRingBufferManager> productionDataBuffers = ProductionStatsManager.getInstance()
-                .getProductionStatsDataBuffers();
+        HashMap<IAEStack, DataBufferHandler> productionDataBuffers = ProductionStatsDataManager.getInstance()
+                .getDataBuffers();
         synchronized (ProductionStatsData.class) {
             final NBTTagCompound data = this.loadProductionStatsData();
             for (IAEStack stack : productionDataBuffers.keySet()) {
@@ -50,7 +50,7 @@ public final class ProductionStatsData implements IProductionStatsData, IOnWorld
 
     @Override
     public void deserializeBufferMap() {
-        HashMap<IAEStack, RecursiveRingBufferManager> readProductionDataBuffers = new HashMap<>();
+        HashMap<IAEStack, DataBufferHandler> readProductionDataBuffers = new HashMap<>();
 
         final NBTTagCompound data = this.loadProductionStatsData();
         for (Object o : data.func_150296_c()) {
@@ -62,12 +62,12 @@ public final class ProductionStatsData implements IProductionStatsData, IOnWorld
             IAEItemStack stack = AEItemStack.loadItemStackFromNBT(tag);
 
             // Put stack & buffer
-            RecursiveRingBufferManager manager = new RecursiveRingBufferManager();
+            DataBufferHandler manager = new DataBufferHandler();
             manager.unpackBuffers(buffer);
             readProductionDataBuffers.put(stack, manager);
         }
 
-        ProductionStatsManager.getInstance().setProductionStatsDataBuffers(readProductionDataBuffers);
+        ProductionStatsDataManager.getInstance().setDataBuffers(readProductionDataBuffers);
     }
 
     private void writeProductionStatsData(final NBTTagCompound data) {

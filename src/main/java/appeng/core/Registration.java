@@ -14,6 +14,7 @@ import java.io.File;
 
 import javax.annotation.Nonnull;
 
+import appeng.core.stats.ProductionStatsDataManager;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -523,6 +524,8 @@ public final class Registration {
 
         FMLCommonHandler.instance().bus().register(TickHandler.INSTANCE);
         MinecraftForge.EVENT_BUS.register(TickHandler.INSTANCE);
+        FMLCommonHandler.instance().bus().register(ProductionStatsDataManager.getInstance());
+        MinecraftForge.EVENT_BUS.register(ProductionStatsDataManager.getInstance());
 
         MinecraftForge.EVENT_BUS.register(SoundEventHandler.INSTANCE);
 

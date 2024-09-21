@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import appeng.core.stats.ProductionStatsManager.TimeIntervals;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 
@@ -12,6 +11,7 @@ import appeng.client.gui.AEBaseGui;
 import appeng.client.gui.widgets.GuiProductionStatsPanel;
 import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
 import appeng.container.implementations.ContainerProductionStats;
+import appeng.core.stats.ProductionStatsDataManager.TimeIntervals;
 import appeng.core.sync.GuiBridge;
 import appeng.helpers.WirelessTerminalGuiObject;
 import appeng.parts.reporting.PartCraftingTerminal;
@@ -95,33 +95,33 @@ public class GuiProductionStats extends AEBaseGui {
                 break;
             }
             case "1m": {
-                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.ONE_MINUTE);
-                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.ONE_MINUTE);
+                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.ONE_MINUTES);
+                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.ONE_MINUTES);
                 break;
             }
             case "10m": {
-                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.TEN_MINUTE);
-                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.TEN_MINUTE);
+                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.TEN_MINUTES);
+                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.TEN_MINUTES);
                 break;
             }
             case "1h": {
-                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.ONE_HOUR);
-                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.ONE_HOUR);
+                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.ONE_HOURS);
+                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.ONE_HOURS);
                 break;
             }
             case "10h": {
-                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.TEN_HOUR);
-                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.TEN_HOUR);
+                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.TEN_HOURS);
+                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.TEN_HOURS);
                 break;
             }
             case "50h": {
-                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.FIFTY_HOUR);
-                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.FIFTY_HOUR);
+                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.FIFTY_HOURS);
+                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.FIFTY_HOURS);
                 break;
             }
             case "250h": {
-                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.TWO_FIFTY_HOUR);
-                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.TWO_FIFTY_HOUR);
+                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.TWO_FIFTY_HOURS);
+                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.TWO_FIFTY_HOURS);
                 break;
             }
         }

@@ -1,22 +1,23 @@
 package appeng.client.gui.widgets;
 
+import java.sql.Time;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import appeng.core.stats.ProductionStatsManager.TimeIntervals;
 import net.minecraft.client.renderer.OpenGlHelper;
 
 import org.lwjgl.opengl.GL11;
 
 import appeng.client.gui.AEBaseGui;
+import appeng.core.stats.ProductionStatsDataManager.TimeIntervals;
 
 public class GuiGraph {
 
     private class Graph {
 
-        private float currentMax = Float.NEGATIVE_INFINITY;
-        protected ArrayList<Float> graphData = new ArrayList<>();
+        private double currentMax = Double.NEGATIVE_INFINITY;
+        protected ArrayList<Double> graphData = new ArrayList<>();
         private int color = 0;
 
         public Graph(final int color) {
@@ -36,7 +37,7 @@ public class GuiGraph {
             GL11.glBegin(GL11.GL_LINE_STRIP);
 
             for (int i = 0; i < graphData.size(); i++) {
-                GL11.glVertex2f(
+                GL11.glVertex2d(
                         offsetX + i + GRAPH_LABELSPACE_X,
                         offsetY + graphHeight - getRelativeHeight(i, graphHeight) - GRAPH_LABELSPACE_Y);
             }
@@ -45,19 +46,19 @@ public class GuiGraph {
             GL11.glEnable(GL11.GL_TEXTURE_2D);
         }
 
-        public void addData(float data) {
+        public void addData(double data) {
             if (graphData.size() == (graphWidth - GRAPH_LABELSPACE_X)) {
                 graphData.remove(0);
             }
             graphData.add(data);
-            for (Float i : graphData) {
+            for (Double i : graphData) {
                 if (i > currentMax) {
                     currentMax = i;
                 }
             }
         }
 
-        private float getRelativeHeight(int index, int height) {
+        private double getRelativeHeight(int index, int height) {
             if (graphData.isEmpty() || graphData.get(index) < 0.1f) {
                 return 0;
             }
@@ -65,13 +66,13 @@ public class GuiGraph {
         }
 
         // https://stats.stackexchange.com/a/281165
-        private float scale(float x) {
+        private double scale(double x) {
             return ((graphHeight - GRAPH_LABELSPACE_Y) * x) / currentMax;
         }
     }
 
     private final AEBaseGui parent;
-    private TimeIntervals timeInterval = TimeIntervals.ONE_MINUTE;
+    private TimeIntervals timeInterval = TimeIntervals.FIVE_SECONDS;
     private final int originX;
     private final int originY;
     private final int graphHeight;
@@ -186,8 +187,7 @@ public class GuiGraph {
                     labelsX[i],
                     Math.round((offsetX + GRAPH_LABELSPACE_X) / scale),
                     Math.round((offsetY + graphHeight - GRAPH_LABELSPACE_Y + 3) / scale),
-                    labelColor
-            );
+                    labelColor);
 
             // Move back to start position and translate to next label
             GL11.glTranslated(halfStringLength + graphTickSizeX / scale, 0d, 0d);
@@ -202,7 +202,7 @@ public class GuiGraph {
         graphs.put(key, new Graph(color));
     }
 
-    public void addData(Object key, float data) {
+    public void addData(Object key, double data) {
         graphs.get(key).addData(data);
     }
 
@@ -216,27 +216,27 @@ public class GuiGraph {
     }
 
     public void determineIntervalLabels() {
-        switch(this.timeInterval) {
+        switch (this.timeInterval) {
             case FIVE_SECONDS:
-                setXAxisLabels(5);
+                setXAxisLabels(TimeIntervals.FIVE_SECONDS.getSeconds());
                 break;
-            case ONE_MINUTE:
-                setXAxisLabels(60);
+            case ONE_MINUTES:
+                setXAxisLabels(TimeIntervals.ONE_MINUTES.getSeconds());
                 break;
-            case TEN_MINUTE:
-                setXAxisLabels(10*60);
+            case TEN_MINUTES:
+                setXAxisLabels(TimeIntervals.TEN_MINUTES.getSeconds());
                 break;
-            case ONE_HOUR:
-                setXAxisLabels(60*60);
+            case ONE_HOURS:
+                setXAxisLabels(TimeIntervals.ONE_HOURS.getSeconds());
                 break;
-            case TEN_HOUR:
-                setXAxisLabels(10*60*60);
+            case TEN_HOURS:
+                setXAxisLabels(TimeIntervals.TEN_HOURS.getSeconds());
                 break;
-            case FIFTY_HOUR:
-                setXAxisLabels(50*60*60);
+            case FIFTY_HOURS:
+                setXAxisLabels(TimeIntervals.FIFTY_HOURS.getSeconds());
                 break;
-            case TWO_FIFTY_HOUR:
-                setXAxisLabels(250*60*60);
+            case TWO_FIFTY_HOURS:
+                setXAxisLabels(TimeIntervals.TWO_FIFTY_HOURS.getSeconds());
                 break;
             default:
                 setXAxisLabels(0);
@@ -280,6 +280,10 @@ public class GuiGraph {
         determineIntervalLabels();
     }
 
+    public TimeIntervals getTimeInterval() {
+        return timeInterval;
+    }
+
     private void renderTooltip(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {
         // System.out.println(mouseX + " " + mouseY + "|" + offsetX + " " + offsetY);
     }
@@ -288,7 +292,7 @@ public class GuiGraph {
         double p = (double) n;
         String level = "";
         if (p > 1000) {
-            final String[] preFixes = {"k", "M", "G", "T", "P", "T", "P", "E", "Z", "Y"};
+            final String[] preFixes = { "k", "M", "G", "T", "P", "T", "P", "E", "Z", "Y" };
 
             int offset = 0;
             while (p > 1000 && offset < preFixes.length) {

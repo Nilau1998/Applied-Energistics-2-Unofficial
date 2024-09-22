@@ -41,10 +41,7 @@ public class GuiProductionStatsGraph {
         }
     }
 
-    public void initGui() {
-        this.graph.toggleGridDrawing(true);
-        this.graph.toggleLabelDrawing(true);
-    }
+    public void initGui() {}
 
     public void updateGraphData() {
         // TODO: Implement this method
@@ -59,12 +56,21 @@ public class GuiProductionStatsGraph {
                 graph.draw(offsetX - parent.getGuiLeft(), offsetY - parent.getGuiTop(), mouseX, mouseY);
             }
         }
+        drawTooltip(offsetX, offsetY, mouseX, mouseY);
     }
 
     public void drawBG(final int offsetX, final int offsetY) {
         int offsetXAdjusted = side.equals(PanelSide.PRODUCTION) ? offsetX : offsetX + GRAPH_TEXTURE_WIDTH;
         parent.bindTexture("guis/productionstatsgraph.png");
         parent.drawTexturedModalRect(offsetXAdjusted, offsetY, 0, 0, GRAPH_TEXTURE_WIDTH, GRAPH_TEXTURE_HEIGHT);
+    }
+
+    public void drawTooltip(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {
+        String graphInfo = graph.getMouseOver(offsetX + GRAPH_TEXTURE_BORDER, offsetY + GuiProductionStatsIntervals.getHeight() + GRAPH_TEXTURE_BORDER, mouseX, mouseY);
+        if (graphInfo.isEmpty()) {
+            return;
+        }
+        this.parent.drawTooltip(mouseX - 180, mouseY - 60, 0, graphInfo);
     }
 
     public static int getWidth() {

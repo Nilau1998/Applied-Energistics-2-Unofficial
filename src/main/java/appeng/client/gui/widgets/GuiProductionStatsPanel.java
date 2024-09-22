@@ -35,8 +35,6 @@ public class GuiProductionStatsPanel {
         graph.initGui();
         if (intervals != null) {
             intervals.initGui();
-            getGraph().setTimeInterval(TimeIntervals.ONE_MINUTES);
-            getGraph().recalculateYAxisLabels(0f);
         }
     }
 

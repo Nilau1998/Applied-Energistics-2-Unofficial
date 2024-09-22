@@ -78,8 +78,6 @@ public class GuiGraph {
     private final int graphHeight;
     private final int graphWidth;
     private final HashMap<Object, Graph> graphs = new HashMap<>();
-    private boolean doGridDrawing = false;
-    private boolean doLabelDrawing = false;
     private final int graphNumTicksX;
     private final int graphNumTicksY;
     private final float graphTickSizeX;
@@ -90,8 +88,7 @@ public class GuiGraph {
     private static final int GRAPH_LABELSPACE_Y = 6 + LABEL_SPACING;
     private final String[] labelsX;
     private final String[] labelsY;
-    private float maxYScaleValue = 0;
-    private float maxXLabelStringWidth = 0;
+    private double currentMax = 0;
 
     protected GuiGraph(AEBaseGui parent, int originX, int originY, int graphWidth, int graphHeight, int numTicksX,
             int numTicksY) {
@@ -106,6 +103,7 @@ public class GuiGraph {
         this.graphTickSizeY = (float) graphHeight / graphNumTicksY;
         this.labelsX = new String[graphNumTicksX];
         this.labelsY = new String[graphNumTicksY];
+        determineIntervalLabels();
     }
 
     public void draw(int offsetX, int offsetY, final int mouseX, final int mouseY) {
@@ -113,12 +111,8 @@ public class GuiGraph {
         offsetX += originX;
         offsetY += originY;
 
-        if (doGridDrawing) {
-            drawGrid(offsetX, offsetY);
-        }
-        if (doLabelDrawing) {
-            drawLabels(offsetX, offsetY);
-        }
+        drawGrid(offsetX, offsetY);
+        drawLabels(offsetX, offsetY);
 
         for (Graph graph : graphs.values()) {
             graph.drawGraph(offsetX, offsetY);
@@ -130,7 +124,7 @@ public class GuiGraph {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GL11.glColor4f(1f, 0f, 0f, 0.5f);
+        GL11.glColor4f(1f, 1f, 1f, 0.15f);
 
         offsetX += GRAPH_LABELSPACE_X;
         offsetY -= GRAPH_LABELSPACE_Y;
@@ -204,14 +198,17 @@ public class GuiGraph {
 
     public void addData(Object key, double data) {
         graphs.get(key).addData(data);
+        recalculateYAxisLabels(data);
     }
 
     // Sets a new upper limit starting from 0
-    public void recalculateYAxisLabels(float newMax) {
-        maxYScaleValue = newMax;
-        float stepSize = maxYScaleValue / graphNumTicksY;
+    public void recalculateYAxisLabels(double data) {
+        if (data > currentMax) {
+            currentMax = data;
+        }
+        double stepSize = data / graphNumTicksY;
         for (int i = 0; i < labelsY.length; i++) {
-            labelsY[i] = formatLong((long) (stepSize * i));
+            labelsY[i] = formatLong(stepSize * i);
         }
     }
 
@@ -248,23 +245,23 @@ public class GuiGraph {
         float stepSize = seconds / (graphNumTicksX - 1);
         for (int i = 0; i < labelsX.length; i++) {
             labelsX[i] = String.format("%.1f", stepSize * i);
-            float strWidth = parent.getFontRenderer().getStringWidth(labelsX[i]);
-            if (strWidth > maxXLabelStringWidth) {
-                maxXLabelStringWidth = strWidth;
-            }
         }
     }
 
-    public void toggleGridDrawing(boolean toggle) {
-        doGridDrawing = toggle;
-    }
-
-    public void toggleLabelDrawing(boolean toggle) {
-        doLabelDrawing = toggle;
-    }
-
-    public float getMaxYScaleValue() {
-        return maxYScaleValue;
+    public String getMouseOver(final int offsetX,final int offsetY, final int mouseX, final int mouseY) {
+        boolean isMouseOver = mouseX >= offsetX && mouseX <= offsetX + graphWidth && mouseY >= offsetY
+                && mouseY <= offsetY + graphHeight - GRAPH_LABELSPACE_Y;
+        if (!isMouseOver) {
+            return "";
+        }
+        int relativeX = mouseX - offsetX - GRAPH_LABELSPACE_X;
+        if (relativeX >= 0 && relativeX < graphWidth - GRAPH_LABELSPACE_X) {
+            int relativeY = (graphHeight + offsetY - GRAPH_LABELSPACE_Y) - mouseY;
+            double yValue = (currentMax / graphHeight) * relativeY;
+            double xValue = ((double) relativeX / (graphWidth - GRAPH_LABELSPACE_X)) * timeInterval.getSeconds();
+            return "X: " + String.format("%.2f", xValue) + " Y: " + String.format("%.2f", yValue); //TODO: Fix x value
+        }
+        return "";
     }
 
     public int getWidth() {
@@ -280,16 +277,8 @@ public class GuiGraph {
         determineIntervalLabels();
     }
 
-    public TimeIntervals getTimeInterval() {
-        return timeInterval;
-    }
-
-    private void renderTooltip(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {
-        // System.out.println(mouseX + " " + mouseY + "|" + offsetX + " " + offsetY);
-    }
-
-    private String formatLong(final long n) {
-        double p = (double) n;
+    private String formatLong(final double n) {
+        double p = n;
         String level = "";
         if (p > 1000) {
             final String[] preFixes = { "k", "M", "G", "T", "P", "T", "P", "E", "Z", "Y" };

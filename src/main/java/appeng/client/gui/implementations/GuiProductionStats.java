@@ -24,8 +24,9 @@ public class GuiProductionStats extends AEBaseGui {
     private final ContainerProductionStats container;
     private final GuiProductionStatsPanel leftPanel;
     private final GuiProductionStatsPanel rightPanel;
-    private final Map<String, GuiButton> buttonMap = new HashMap<>();
+    private final Map<Integer, GuiButton> buttonMap = new HashMap<>();
     private GuiBridge originalGui;
+    private GuiButton lastClickedButton;
 
     public GuiProductionStats(final InventoryPlayer inventoryPlayer, final Object te) {
         this(new ContainerProductionStats(inventoryPlayer, te));
@@ -66,8 +67,10 @@ public class GuiProductionStats extends AEBaseGui {
         leftPanel.initGui();
         rightPanel.initGui();
         for (GuiButton button : this.buttonList) {
-            buttonMap.put(button.displayString, button);
+            buttonMap.put(button.id, button);
         }
+        lastClickedButton = this.buttonMap.get(0); // Init with 5s
+        lastClickedButton.enabled = false;
     }
 
     @Override
@@ -84,42 +87,47 @@ public class GuiProductionStats extends AEBaseGui {
     @Override
     protected void actionPerformed(final GuiButton btn) {
         super.actionPerformed(btn);
-        GuiButton btnClicked = this.buttonMap.get(btn.displayString);
-        if (btnClicked == null) {
+        GuiButton btnClicked = this.buttonMap.get(btn.id);
+        if (btnClicked == null || btnClicked == lastClickedButton) {
             return;
         }
-        switch (btnClicked.displayString) {
-            case "5s": {
+        if (lastClickedButton != null) {
+            lastClickedButton.enabled = true;
+        }
+        lastClickedButton = btnClicked;
+        btnClicked.enabled = false;
+        switch (btnClicked.id) {
+            case 0: {
                 this.leftPanel.getGraph().setTimeInterval(TimeIntervals.FIVE_SECONDS);
                 this.rightPanel.getGraph().setTimeInterval(TimeIntervals.FIVE_SECONDS);
                 break;
             }
-            case "1m": {
+            case 1: {
                 this.leftPanel.getGraph().setTimeInterval(TimeIntervals.ONE_MINUTES);
                 this.rightPanel.getGraph().setTimeInterval(TimeIntervals.ONE_MINUTES);
                 break;
             }
-            case "10m": {
+            case 2: {
                 this.leftPanel.getGraph().setTimeInterval(TimeIntervals.TEN_MINUTES);
                 this.rightPanel.getGraph().setTimeInterval(TimeIntervals.TEN_MINUTES);
                 break;
             }
-            case "1h": {
+            case 3: {
                 this.leftPanel.getGraph().setTimeInterval(TimeIntervals.ONE_HOURS);
                 this.rightPanel.getGraph().setTimeInterval(TimeIntervals.ONE_HOURS);
                 break;
             }
-            case "10h": {
+            case 4: {
                 this.leftPanel.getGraph().setTimeInterval(TimeIntervals.TEN_HOURS);
                 this.rightPanel.getGraph().setTimeInterval(TimeIntervals.TEN_HOURS);
                 break;
             }
-            case "50h": {
+            case 5: {
                 this.leftPanel.getGraph().setTimeInterval(TimeIntervals.FIFTY_HOURS);
                 this.rightPanel.getGraph().setTimeInterval(TimeIntervals.FIFTY_HOURS);
                 break;
             }
-            case "250h": {
+            case 6: {
                 this.leftPanel.getGraph().setTimeInterval(TimeIntervals.TWO_FIFTY_HOURS);
                 this.rightPanel.getGraph().setTimeInterval(TimeIntervals.TWO_FIFTY_HOURS);
                 break;

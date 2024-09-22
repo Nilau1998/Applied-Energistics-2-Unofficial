@@ -34,27 +34,27 @@ public class GuiProductionStatsIntervals {
         this.parent.getButtonList().add(this.fiveSeconds);
         xOffset += indent;
 
-        this.oneMinute = new GuiButton(0, xOffset, yOffset, buttonWidth, 20, "1m");
+        this.oneMinute = new GuiButton(1, xOffset, yOffset, buttonWidth, 20, "1m");
         this.parent.getButtonList().add(this.oneMinute);
         xOffset += indent;
 
-        this.tenMinute = new GuiButton(0, xOffset, yOffset, buttonWidth, 20, "10m");
+        this.tenMinute = new GuiButton(2, xOffset, yOffset, buttonWidth, 20, "10m");
         this.parent.getButtonList().add(this.tenMinute);
         xOffset += indent;
 
-        this.oneHour = new GuiButton(0, xOffset, yOffset, buttonWidth, 20, "1h");
+        this.oneHour = new GuiButton(3, xOffset, yOffset, buttonWidth, 20, "1h");
         this.parent.getButtonList().add(this.oneHour);
         xOffset += indent;
 
-        this.tenHour = new GuiButton(0, xOffset, yOffset, buttonWidth, 20, "10h");
+        this.tenHour = new GuiButton(4, xOffset, yOffset, buttonWidth, 20, "10h");
         this.parent.getButtonList().add(this.tenHour);
         xOffset += indent;
 
-        this.fiftyHour = new GuiButton(0, xOffset, yOffset, buttonWidth, 20, "50h");
+        this.fiftyHour = new GuiButton(5, xOffset, yOffset, buttonWidth, 20, "50h");
         this.parent.getButtonList().add(this.fiftyHour);
         xOffset += indent;
 
-        this.twoFiftyHour = new GuiButton(0, xOffset, yOffset, buttonWidth, 20, "250h");
+        this.twoFiftyHour = new GuiButton(6, xOffset, yOffset, buttonWidth, 20, "250h");
         this.parent.getButtonList().add(this.twoFiftyHour);
     }
 

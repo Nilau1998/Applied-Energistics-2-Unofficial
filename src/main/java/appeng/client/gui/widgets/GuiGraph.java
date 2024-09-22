@@ -1,6 +1,5 @@
 package appeng.client.gui.widgets;
 
-import java.sql.Time;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -104,6 +103,7 @@ public class GuiGraph {
         this.labelsX = new String[graphNumTicksX];
         this.labelsY = new String[graphNumTicksY];
         determineIntervalLabels();
+        recalculateYAxisLabels(0d);
     }
 
     public void draw(int offsetX, int offsetY, final int mouseX, final int mouseY) {
@@ -248,8 +248,9 @@ public class GuiGraph {
         }
     }
 
-    public String getMouseOver(final int offsetX,final int offsetY, final int mouseX, final int mouseY) {
-        boolean isMouseOver = mouseX >= offsetX && mouseX <= offsetX + graphWidth && mouseY >= offsetY
+    public String getMouseOver(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {
+        boolean isMouseOver = mouseX >= offsetX && mouseX <= offsetX + graphWidth
+                && mouseY >= offsetY
                 && mouseY <= offsetY + graphHeight - GRAPH_LABELSPACE_Y;
         if (!isMouseOver) {
             return "";
@@ -259,7 +260,7 @@ public class GuiGraph {
             int relativeY = (graphHeight + offsetY - GRAPH_LABELSPACE_Y) - mouseY;
             double yValue = (currentMax / graphHeight) * relativeY;
             double xValue = ((double) relativeX / (graphWidth - GRAPH_LABELSPACE_X)) * timeInterval.getSeconds();
-            return "X: " + String.format("%.2f", xValue) + " Y: " + String.format("%.2f", yValue); //TODO: Fix x value
+            return "X: " + String.format("%.2f", xValue) + " Y: " + String.format("%.2f", yValue); // TODO: Fix x value
         }
         return "";
     }

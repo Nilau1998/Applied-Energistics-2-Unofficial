@@ -1,16 +1,17 @@
 package appeng.core.stats.productionstats;
 
-import appeng.core.stats.ProductionStatsDataManager.TimeIntervals;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.nbt.NBTTagList;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+
+import appeng.core.stats.ProductionStatsDataManager.TimeIntervals;
+
 public class DataBufferHandler {
+
     private final DataBuffer dataBuffer;
     public int GRAPH_COLOR = generateColor();
     private static final int bufferSize = 20; // TODO: Change this?

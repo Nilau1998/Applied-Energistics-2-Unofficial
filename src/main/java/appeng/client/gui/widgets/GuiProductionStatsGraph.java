@@ -1,12 +1,5 @@
 package appeng.client.gui.widgets;
 
-import java.util.HashMap;
-
-import appeng.core.stats.ProductionStatsDataManager;
-import appeng.core.stats.productionstats.DataBufferHandler;
-import org.lwjgl.input.Keyboard;
-
-import appeng.api.storage.data.IAEStack;
 import appeng.client.gui.implementations.GuiProductionStats;
 import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
 
@@ -33,21 +26,12 @@ public class GuiProductionStatsGraph {
                 GRAPH_HEIGHT,
                 19,
                 8);
-        ProductionStatsDataManager.getInstance().registerConsumer(this::updateGraphData);
-        HashMap<IAEStack, DataBufferHandler> bufferManagerMap = ProductionStatsDataManager.getInstance()
-                .getDataBuffers();
-        for (IAEStack key : bufferManagerMap.keySet()) {
-            graph.addGraph(key, bufferManagerMap.get(key).GRAPH_COLOR);
-        }
     }
 
     public void initGui() {}
 
     public void updateGraphData() {
         // TODO: Implement this method
-        for (IAEStack key : ProductionStatsDataManager.getInstance().getDataBuffers().keySet()) {
-            graph.addData(key, 50);
-        }
     }
 
     public void drawFG(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {
@@ -66,7 +50,11 @@ public class GuiProductionStatsGraph {
     }
 
     public void drawTooltip(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {
-        String graphInfo = graph.getMouseOver(offsetX + GRAPH_TEXTURE_BORDER, offsetY + GuiProductionStatsIntervals.getHeight() + GRAPH_TEXTURE_BORDER, mouseX, mouseY);
+        String graphInfo = graph.getMouseOver(
+                offsetX + GRAPH_TEXTURE_BORDER,
+                offsetY + GuiProductionStatsIntervals.getHeight() + GRAPH_TEXTURE_BORDER,
+                mouseX,
+                mouseY);
         if (graphInfo.isEmpty()) {
             return;
         }

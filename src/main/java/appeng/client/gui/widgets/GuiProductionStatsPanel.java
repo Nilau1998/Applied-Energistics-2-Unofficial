@@ -1,7 +1,6 @@
 package appeng.client.gui.widgets;
 
 import appeng.client.gui.implementations.GuiProductionStats;
-import appeng.core.stats.ProductionStatsDataManager.TimeIntervals;
 
 public class GuiProductionStatsPanel {
 

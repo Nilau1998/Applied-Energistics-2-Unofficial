@@ -5,7 +5,6 @@ import java.util.Deque;
 import java.util.List;
 
 import net.minecraft.nbt.NBTTagDouble;
-import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagList;
 
 import appeng.core.stats.ProductionStatsDataManager.TimeIntervals;

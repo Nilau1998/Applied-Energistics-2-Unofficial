@@ -13,6 +13,8 @@ import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
 import appeng.container.implementations.ContainerProductionStats;
 import appeng.core.stats.ProductionStatsDataManager.TimeIntervals;
 import appeng.core.sync.GuiBridge;
+import appeng.core.sync.network.NetworkHandler;
+import appeng.core.sync.packets.PacketProductionStatsInterval;
 import appeng.helpers.WirelessTerminalGuiObject;
 import appeng.parts.reporting.PartCraftingTerminal;
 import appeng.parts.reporting.PartPatternTerminal;
@@ -71,6 +73,7 @@ public class GuiProductionStats extends AEBaseGui {
         }
         lastClickedButton = this.buttonMap.get(0); // Init with 5s
         lastClickedButton.enabled = false;
+        NetworkHandler.instance.sendToServer(new PacketProductionStatsInterval(TimeIntervals.FIVE_SECONDS));
     }
 
     @Override
@@ -96,42 +99,16 @@ public class GuiProductionStats extends AEBaseGui {
         }
         lastClickedButton = btnClicked;
         btnClicked.enabled = false;
-        switch (btnClicked.id) {
-            case 0: {
-                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.FIVE_SECONDS);
-                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.FIVE_SECONDS);
-                break;
-            }
-            case 1: {
-                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.ONE_MINUTES);
-                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.ONE_MINUTES);
-                break;
-            }
-            case 2: {
-                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.TEN_MINUTES);
-                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.TEN_MINUTES);
-                break;
-            }
-            case 3: {
-                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.ONE_HOURS);
-                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.ONE_HOURS);
-                break;
-            }
-            case 4: {
-                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.TEN_HOURS);
-                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.TEN_HOURS);
-                break;
-            }
-            case 5: {
-                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.FIFTY_HOURS);
-                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.FIFTY_HOURS);
-                break;
-            }
-            case 6: {
-                this.leftPanel.getGraph().setTimeInterval(TimeIntervals.TWO_FIFTY_HOURS);
-                this.rightPanel.getGraph().setTimeInterval(TimeIntervals.TWO_FIFTY_HOURS);
-                break;
-            }
+
+        TimeIntervals[] intervals = { TimeIntervals.FIVE_SECONDS, TimeIntervals.ONE_MINUTES, TimeIntervals.TEN_MINUTES,
+                TimeIntervals.ONE_HOURS, TimeIntervals.TEN_HOURS, TimeIntervals.FIFTY_HOURS,
+                TimeIntervals.TWO_FIFTY_HOURS };
+
+        if (btnClicked.id >= 0 && btnClicked.id < intervals.length) {
+            TimeIntervals interval = intervals[btnClicked.id];
+            this.leftPanel.getGraph().setTimeInterval(interval);
+            this.rightPanel.getGraph().setTimeInterval(interval);
+            NetworkHandler.instance.sendToServer(new PacketProductionStatsInterval(interval));
         }
     }
 

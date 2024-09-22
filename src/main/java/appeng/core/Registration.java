@@ -14,7 +14,6 @@ import java.io.File;
 
 import javax.annotation.Nonnull;
 
-import appeng.core.stats.ProductionStatsDataManager;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -66,6 +65,7 @@ import appeng.core.features.registries.entries.VoidCellHandler;
 import appeng.core.localization.GuiText;
 import appeng.core.localization.PlayerMessages;
 import appeng.core.stats.PlayerStatsRegistration;
+import appeng.core.stats.ProductionStatsDataManager;
 import appeng.helpers.BlockingModeIgnoreList;
 import appeng.hooks.AETrading;
 import appeng.hooks.SoundEventHandler;

@@ -1,21 +1,19 @@
 package appeng.core.stats;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.UUID;
+
+import net.minecraftforge.event.world.WorldEvent;
 
 import appeng.api.storage.data.IAEStack;
 import appeng.core.stats.productionstats.DataBufferHandler;
-import appeng.core.stats.productionstats.ConsumerUpdate;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraftforge.event.world.WorldEvent;
 
 public final class ProductionStatsDataManager {
 
     public enum TimeIntervals {
+
         FIVE_SECONDS(5),
         ONE_MINUTES(60),
         TEN_MINUTES(10 * 60),
@@ -38,13 +36,13 @@ public final class ProductionStatsDataManager {
     private boolean worldLoaded = false;
     public boolean newBufferAdded = false;
     private final HashMap<IAEStack, DataBufferHandler> dataBuffers;
-    private final List<WeakReference<ConsumerUpdate>> consumers;
+    private final HashMap<UUID, TimeIntervals> playerIntervals;
 
     private static ProductionStatsDataManager INSTANCE;
 
     private ProductionStatsDataManager() {
         this.dataBuffers = new HashMap<>();
-        this.consumers = new ArrayList<>();
+        this.playerIntervals = new HashMap<>();
     }
 
     public static ProductionStatsDataManager getInstance() {
@@ -70,20 +68,13 @@ public final class ProductionStatsDataManager {
         return this.dataBuffers;
     }
 
-    public void registerConsumer(ConsumerUpdate consumer) {
-        this.consumers.add(new WeakReference<>(consumer));
+    // Track the player's interval in case multiple players are using the same buffer
+    public void setInterval(UUID player, TimeIntervals interval) {
+        this.playerIntervals.put(player, interval);
     }
 
-    public void updateConsumers() {
-        Iterator<WeakReference<ConsumerUpdate>> iterator = consumers.iterator();
-        while (iterator.hasNext()) {
-            ConsumerUpdate consumer = iterator.next().get();
-            if (consumer == null) {
-                iterator.remove(); // Remove garbage collected consumer
-            } else {
-                consumer.update();
-            }
-        }
+    public TimeIntervals getInterval(UUID player) {
+        return this.playerIntervals.get(player);
     }
 
     @SubscribeEvent
@@ -93,7 +84,6 @@ public final class ProductionStatsDataManager {
                 for (DataBufferHandler buffer : this.dataBuffers.values()) {
                     buffer.tickBuffer();
                 }
-                updateConsumers();
             }
         }
     }

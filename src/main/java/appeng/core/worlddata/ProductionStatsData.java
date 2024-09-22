@@ -8,8 +8,6 @@ import java.util.HashMap;
 
 import javax.annotation.Nonnull;
 
-import appeng.core.stats.ProductionStatsDataManager;
-import appeng.core.stats.productionstats.DataBufferHandler;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -18,6 +16,8 @@ import com.google.common.base.Preconditions;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
 import appeng.core.AELog;
+import appeng.core.stats.ProductionStatsDataManager;
+import appeng.core.stats.productionstats.DataBufferHandler;
 import appeng.util.item.AEItemStack;
 
 public final class ProductionStatsData implements IProductionStatsData, IOnWorldStartable, IOnWorldStoppable {

@@ -1,5 +1,6 @@
 package appeng.core.stats;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -68,13 +69,19 @@ public final class ProductionStatsDataManager {
         return this.dataBuffers;
     }
 
+    public ArrayList<IAEStack> getLastSummedData(UUID player) {
+        ArrayList<IAEStack> summedData = new ArrayList<>();
+        for (IAEStack stack : this.dataBuffers.keySet()) {
+            double stackSize = dataBuffers.get(stack).getBuffer(playerIntervals.get(player)).getSummedData();
+            stack.setStackSize((long) stackSize);
+            summedData.add(stack);
+        }
+        return summedData;
+    }
+
     // Track the player's interval in case multiple players are using the same buffer
     public void setInterval(UUID player, TimeIntervals interval) {
         this.playerIntervals.put(player, interval);
-    }
-
-    public TimeIntervals getInterval(UUID player) {
-        return this.playerIntervals.get(player);
     }
 
     @SubscribeEvent

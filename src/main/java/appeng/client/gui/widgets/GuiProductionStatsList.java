@@ -35,8 +35,7 @@ public class GuiProductionStatsList {
         scrollbar.setHeight(SCROLLBAR_TEXTURE_HEIGHT);
     }
 
-    public void drawFG(final int offsetX, final int offsetY,
-            final int mouseX, final int mouseY) {
+    public void drawFG(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {
         scrollbar.draw(parent);
     }
 
@@ -66,7 +65,7 @@ public class GuiProductionStatsList {
             case PRODUCTION -> scrollbar.setLeft(SCROLLBAR_X_OFFSET);
             case CONSUMPTION -> scrollbar.setLeft(SCROLLBAR_X_OFFSET + LIST_TEXTURE_WIDTH);
         }
-        scrollbar.setRange(0, 7,1);
+        scrollbar.setRange(0, 7, 1);
     }
 
     public void setContainer(ContainerProductionStatsList container) {

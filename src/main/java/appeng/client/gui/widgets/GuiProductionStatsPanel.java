@@ -1,7 +1,6 @@
 package appeng.client.gui.widgets;
 
 import appeng.client.gui.implementations.GuiProductionStats;
-import appeng.container.implementations.ContainerProductionStatsList;
 
 public class GuiProductionStatsPanel {
 

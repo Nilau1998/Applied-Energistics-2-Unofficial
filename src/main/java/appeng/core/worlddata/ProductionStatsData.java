@@ -13,7 +13,6 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import com.google.common.base.Preconditions;
 
-import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
 import appeng.core.AELog;
 import appeng.core.stats.ProductionStatsDataManager;
@@ -59,7 +58,7 @@ public final class ProductionStatsData implements IProductionStatsData, IOnWorld
             NBTTagCompound tag = data.getCompoundTag(name);
             NBTTagCompound buffer = tag.getCompoundTag("buf");
             tag.removeTag("buf");
-            IAEItemStack stack = AEItemStack.loadItemStackFromNBT(tag);
+            IAEStack stack = AEItemStack.loadItemStackFromNBT(tag);
 
             // Put stack & buffer
             DataBufferHandler manager = new DataBufferHandler();

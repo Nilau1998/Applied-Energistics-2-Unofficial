@@ -16,6 +16,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 
 import appeng.api.storage.data.IAEItemStack;
+import appeng.api.storage.data.IAEStack;
 import appeng.client.gui.implementations.GuiProductionStats;
 import appeng.core.AELog;
 import appeng.core.sync.AppEngPacket;
@@ -113,7 +114,7 @@ public class PacketProductionStatsUpdate extends AppEngPacket {
     public void clientPacketData(final INetworkInfo network, final AppEngPacket packet, final EntityPlayer player) {
         final GuiScreen screen = Minecraft.getMinecraft().currentScreen;
         if (screen instanceof GuiProductionStats) {
-            System.out.println("Received production stats update packet.");
+            ((GuiProductionStats) screen).handleDataUpdate(list);
         }
     }
 
@@ -132,7 +133,7 @@ public class PacketProductionStatsUpdate extends AppEngPacket {
         return null;
     }
 
-    public void appendItem(final IAEItemStack is) throws IOException, BufferOverflowException {
+    public void appendItem(final IAEStack is) throws IOException, BufferOverflowException {
         final ByteBuf tmp = Unpooled.buffer(OPERATION_BYTE_LIMIT);
         is.writeToPacket(tmp);
 

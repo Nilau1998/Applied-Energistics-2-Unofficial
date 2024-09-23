@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import appeng.container.implementations.ContainerProductionStatsList;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 
@@ -24,16 +25,21 @@ import appeng.parts.reporting.PartTerminal;
 public class GuiProductionStats extends AEBaseGui {
 
     private final ContainerProductionStats container;
+    private final ContainerProductionStatsList productionPanelContainer;
+    private final ContainerProductionStatsList consumptionPanelContainer;
     private final GuiProductionStatsPanel leftPanel;
     private final GuiProductionStatsPanel rightPanel;
     private final Map<Integer, GuiButton> buttonMap = new HashMap<>();
     private GuiBridge originalGui;
     private GuiButton lastClickedButton;
 
-    public GuiProductionStats(final InventoryPlayer inventoryPlayer, final Object te) {
-        this(new ContainerProductionStats(inventoryPlayer, te));
+    // So children can share the same anchor and inventory player
+    private Object anchor;
+    private InventoryPlayer inventoryPlayer;
 
-        // Remember where I came from
+    public GuiProductionStats(final InventoryPlayer inventoryPlayer, final Object te) {
+        this(new ContainerProductionStats(inventoryPlayer, te), inventoryPlayer, te);
+
         if (te instanceof WirelessTerminalGuiObject) {
             this.originalGui = GuiBridge.GUI_WIRELESS_TERM;
         }
@@ -55,11 +61,18 @@ public class GuiProductionStats extends AEBaseGui {
         }
     }
 
-    protected GuiProductionStats(final ContainerProductionStats container) {
+    protected GuiProductionStats(final ContainerProductionStats container, final InventoryPlayer inventoryPlayer,
+            final Object te) {
         super(container);
+        this.anchor = te;
+        this.inventoryPlayer = inventoryPlayer;
         this.container = container;
+        this.productionPanelContainer = new ContainerProductionStatsList(inventoryPlayer, te);
         this.leftPanel = new GuiProductionStatsPanel(this, PanelSide.PRODUCTION);
+        this.leftPanel.getList().setContainer(productionPanelContainer);
+        this.consumptionPanelContainer = new ContainerProductionStatsList(inventoryPlayer, te);
         this.rightPanel = new GuiProductionStatsPanel(this, PanelSide.CONSUMPTION);
+        this.rightPanel.getList().setContainer(consumptionPanelContainer);
     }
 
     @Override
@@ -79,6 +92,7 @@ public class GuiProductionStats extends AEBaseGui {
     @Override
     public void drawFG(int offsetX, int offsetY, int mouseX, int mouseY) {
         leftPanel.drawFG(offsetX, offsetY, mouseX, mouseY);
+        rightPanel.drawFG(offsetX, offsetY, mouseX, mouseY);
     }
 
     @Override
@@ -112,6 +126,20 @@ public class GuiProductionStats extends AEBaseGui {
         }
     }
 
+    @Override
+    protected void mouseClicked(int x, int y, int button) {
+        super.mouseClicked(x, y, button);
+        leftPanel.getList().mouseClicked(x - guiLeft, y - guiTop, button);
+        rightPanel.getList().mouseClicked(x - guiLeft, y - guiTop, button);
+    }
+
+    @Override
+    protected void mouseClickMove(int x, int y, int c, long d) {
+        super.mouseClickMove(x, y, c, d);
+        leftPanel.getList().mouseClickMove(x - guiLeft, y - guiTop);
+        rightPanel.getList().mouseClickMove(x - guiLeft, y - guiTop);
+    }
+
     public boolean hideItemPanelSlots(int tx, int ty, int tw, int th) {
         int rw = 0;
         int rh = ySize;
@@ -138,5 +166,13 @@ public class GuiProductionStats extends AEBaseGui {
     protected void recalculateScreenSize() {
         xSize = leftPanel.getWidth() + rightPanel.getWidth();
         ySize = Math.max(leftPanel.getHeight(), rightPanel.getWidth());
+    }
+
+    public Object getAnchor() {
+        return anchor;
+    }
+
+    public InventoryPlayer getInventoryPlayer() {
+        return inventoryPlayer;
     }
 }

@@ -9,4 +9,9 @@ public class ContainerProductionStats extends AEBaseContainer {
     public ContainerProductionStats(final InventoryPlayer ip, final Object te) {
         super(ip, te);
     }
+
+    @Override
+    public void detectAndSendChanges() {
+        super.detectAndSendChanges();
+    }
 }

@@ -1,14 +1,15 @@
 package appeng.client.gui.widgets;
 
 import appeng.client.gui.implementations.GuiProductionStats;
+import appeng.container.implementations.ContainerProductionStatsList;
 
 public class GuiProductionStatsPanel {
 
-    private final GuiProductionStats parent;
+    private GuiProductionStats parent;
 
-    public final PanelSide side;
-    private final GuiProductionStatsGraph graph;
-    private final GuiProductionStatsList list;
+    public PanelSide side;
+    private GuiProductionStatsGraph graph;
+    private GuiProductionStatsList list;
     private GuiProductionStatsIntervals intervals;
     private int widgetWidth, widgetHeight;
 
@@ -32,6 +33,7 @@ public class GuiProductionStatsPanel {
 
     public void initGui() {
         graph.initGui();
+        list.initGui();
         if (intervals != null) {
             intervals.initGui();
         }
@@ -39,6 +41,7 @@ public class GuiProductionStatsPanel {
 
     public void drawFG(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {
         graph.drawFG(offsetX, offsetY, mouseX, mouseY);
+        list.drawFG(offsetX, offsetY, mouseX, mouseY);
         if (intervals != null) {
             intervals.drawFG(offsetX, offsetY, mouseX, mouseY);
         }
@@ -54,6 +57,10 @@ public class GuiProductionStatsPanel {
 
     public GuiGraph getGraph() {
         return this.graph.getGraph();
+    }
+
+    public GuiProductionStatsList getList() {
+        return this.list;
     }
 
     public int getWidth() {

@@ -109,6 +109,7 @@ import appeng.tile.grindstone.TileGrinder;
 import appeng.tile.misc.TileCellWorkbench;
 import appeng.tile.misc.TileCondenser;
 import appeng.tile.misc.TileInscriber;
+import appeng.tile.misc.TileProductionStatsTracker;
 import appeng.tile.misc.TileSecurity;
 import appeng.tile.misc.TileVibrationChamber;
 import appeng.tile.networking.TileWireless;
@@ -217,6 +218,9 @@ public enum GuiBridge implements IGuiHandler {
             SecurityPermissions.CRAFT),
 
     GUI_PRODUCTION_STATS(ContainerProductionStats.class, ITerminalHost.class, GuiHostType.ITEM_OR_WORLD,
+            SecurityPermissions.CRAFT),
+
+    GUI_PRODUCTION_STATS_TRACKER(ContainerProductionStats.class, TileProductionStatsTracker.class, GuiHostType.WORLD,
             SecurityPermissions.CRAFT),
 
     GUI_RENAMER(ContainerRenamer.class, ICustomNameObject.class, GuiHostType.WORLD, SecurityPermissions.BUILD),

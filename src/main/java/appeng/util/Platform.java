@@ -112,7 +112,6 @@ import appeng.core.AEConfig;
 import appeng.core.AELog;
 import appeng.core.AppEng;
 import appeng.core.features.AEFeature;
-import appeng.core.stats.ProductionStatsDataManager;
 import appeng.core.stats.Stats;
 import appeng.core.sync.GuiBridge;
 import appeng.core.sync.GuiHostType;
@@ -1284,11 +1283,6 @@ public class Platform {
             if (ret != null && src.isPlayer()) {
                 Stats.ItemsExtracted.addToPlayer(((PlayerSource) src).player, (int) ret.getStackSize());
             }
-
-            if (ret != null) {
-                ProductionStatsDataManager.getInstance().writeData(possible, -ret.getStackSize());
-            }
-
             return ret;
         }
 
@@ -1322,7 +1316,6 @@ public class Platform {
                 split.decStackSize(itemToAdd);
                 input.setStackSize(itemToAdd);
                 split.add(cell.injectItems(input, Actionable.MODULATE, src));
-                ProductionStatsDataManager.getInstance().writeData(input, input.getStackSize());
 
                 if (src.isPlayer()) {
                     final long diff = original - split.getStackSize();
@@ -1332,7 +1325,6 @@ public class Platform {
                 return split;
             }
 
-            ProductionStatsDataManager.getInstance().writeData(input, input.getStackSize());
             final StackType ret = cell.injectItems(input, Actionable.MODULATE, src);
 
             if (src.isPlayer()) {

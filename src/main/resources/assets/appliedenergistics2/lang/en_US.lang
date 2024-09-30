@@ -62,6 +62,7 @@ tile.appliedenergistics2.BlockCraftingAccelerator4096x.name=4096 Core Co-Process
 tile.appliedenergistics2.BlockCraftingUnit.name=Crafting Unit
 tile.appliedenergistics2.BlockMolecularAssembler.name=Molecular Assembler
 tile.appliedenergistics2.BlockPatternOptimizationMatrix.name=Pattern Optimization Matrix
+tile.appliedenergistics2.BlockProductionStatsTracker.name=Production Stats Tracker
 
 # Stairs
 tile.appliedenergistics2.ChiseledQuartzStairBlock.name=Chiseled Certus Quartz Stairs

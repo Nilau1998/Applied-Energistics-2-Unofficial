@@ -191,4 +191,6 @@ public interface IBlocks {
     ITileDefinition paint();
 
     ITileDefinition patternsOptimizationMatrix();
+
+    ITileDefinition productionStatsTracker();
 }

@@ -52,6 +52,7 @@ tile.appliedenergistics2.BlockCraftingAccelerator4x.name=4 Mag Barkács Segédfe
 tile.appliedenergistics2.BlockCraftingAccelerator16x.name=16 Mag Barkács Segédfeldolgozó Egység
 tile.appliedenergistics2.BlockCraftingUnit.name=Barkácsoló Egység
 tile.appliedenergistics2.BlockMolecularAssembler.name=Molekuláris Összeállító
+tile.appliedenergistics2.BlockProductionStatsTracker.name=ME Termelési Statisztika Követő
 
 
 # Stairs

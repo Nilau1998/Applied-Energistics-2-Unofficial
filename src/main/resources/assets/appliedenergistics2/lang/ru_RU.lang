@@ -60,6 +60,7 @@ tile.appliedenergistics2.BlockCraftingAccelerator1024x.name=1024-х ядерны
 tile.appliedenergistics2.BlockCraftingAccelerator4096x.name=4096-х ядерный сопроцессор создания
 tile.appliedenergistics2.BlockCraftingUnit.name=Блок создания
 tile.appliedenergistics2.BlockMolecularAssembler.name=Молекулярный сборщик
+tile.appliedenergistics2.BlockProductionStatsTracker.name=МЭ Трекер статистики производства
 
 # Stairs
 tile.appliedenergistics2.ChiseledQuartzStairBlock.name=Ступеньки из резного истинного кварца

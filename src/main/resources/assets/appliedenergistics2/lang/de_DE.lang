@@ -52,6 +52,7 @@ tile.appliedenergistics2.BlockCraftingAccelerator4x.name=Quad Kern Fertigungs-Pr
 tile.appliedenergistics2.BlockCraftingAccelerator16x.name=16 Kern Fertigungs-Prozessoreinheit
 tile.appliedenergistics2.BlockCraftingUnit.name=Fertigungseinheit
 tile.appliedenergistics2.BlockMolecularAssembler.name=Molekularassembler
+tile.appliedenergistics2.BlockProductionStatsTracker.name=ME Fertigungsstatistik-Prozessor
 
 # Stairs
 tile.appliedenergistics2.ChiseledQuartzStairBlock.name=Gemeißelte Certusquartztreppe

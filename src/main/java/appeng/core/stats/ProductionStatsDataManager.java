@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
-import net.minecraftforge.event.world.WorldEvent;
-
 import appeng.api.storage.data.IAEStack;
 import appeng.core.stats.productionstats.DataBufferHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import net.minecraft.nbt.NBTTagCompound;
 
 public final class ProductionStatsDataManager {
 
@@ -34,23 +31,15 @@ public final class ProductionStatsDataManager {
         }
     }
 
-    private boolean worldLoaded = false;
     public boolean newBufferAdded = false;
     private final HashMap<IAEStack, DataBufferHandler> dataBuffers;
     private final HashMap<UUID, TimeIntervals> playerIntervals;
 
     private static ProductionStatsDataManager INSTANCE;
 
-    private ProductionStatsDataManager() {
+    public ProductionStatsDataManager() {
         this.dataBuffers = new HashMap<>();
         this.playerIntervals = new HashMap<>();
-    }
-
-    public static ProductionStatsDataManager getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ProductionStatsDataManager();
-        }
-        return INSTANCE;
     }
 
     public void writeData(IAEStack stack, float value) {
@@ -61,15 +50,7 @@ public final class ProductionStatsDataManager {
         this.dataBuffers.get(stack).writeToBuffer(value);
     }
 
-    public void setDataBuffers(HashMap<IAEStack, DataBufferHandler> map) {
-        this.dataBuffers.putAll(map);
-    }
-
-    public HashMap<IAEStack, DataBufferHandler> getDataBuffers() {
-        return this.dataBuffers;
-    }
-
-    public ArrayList<IAEStack> getLastSummedData(UUID player) {
+    public ArrayList<IAEStack> getLastSummedDataEntry(UUID player) {
         ArrayList<IAEStack> summedData = new ArrayList<>();
         for (IAEStack stack : this.dataBuffers.keySet()) {
             double stackSize = dataBuffers.get(stack).getBuffer(playerIntervals.get(player)).getSummedData();
@@ -84,24 +65,9 @@ public final class ProductionStatsDataManager {
         this.playerIntervals.put(player, interval);
     }
 
-    @SubscribeEvent
-    public void onTick(final TickEvent ev) {
-        if (ev.type == TickEvent.Type.SERVER && ev.phase == TickEvent.Phase.END) {
-            if (worldLoaded) {
-                for (DataBufferHandler buffer : this.dataBuffers.values()) {
-                    buffer.tickBuffer();
-                }
-            }
+    public void onTick() {
+        for (DataBufferHandler buffer : this.dataBuffers.values()) {
+            buffer.tickBuffer();
         }
-    }
-
-    @SubscribeEvent
-    public void onWorldLoad(final WorldEvent.Load ev) {
-        worldLoaded = true;
-    }
-
-    @SubscribeEvent
-    public void onWorldUnload(final WorldEvent.Unload ev) {
-        worldLoaded = false;
     }
 }

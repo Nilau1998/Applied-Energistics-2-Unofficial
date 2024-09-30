@@ -51,6 +51,7 @@ tile.appliedenergistics2.BlockCraftingAccelerator4x.name=4 Centro Unidad de Copr
 tile.appliedenergistics2.BlockCraftingAccelerator16x.name=16 Centro Unidad de Coprocesador
 tile.appliedenergistics2.BlockCraftingUnit.name=Unidad de Creación
 tile.appliedenergistics2.BlockMolecularAssembler.name=Ensambladora Molecular
+tile.appliedenergistics2.BlockProductionStatsTracker.name=ME Rastreador de Estadísticas de Producción
 
 chat.appliedenergistics2.ChestCannotReadStorageCell=ME Cofre no puede leer la unidad de almacenamiento.
 chat.appliedenergistics2.SettingCleared=Configuración Limpiada.

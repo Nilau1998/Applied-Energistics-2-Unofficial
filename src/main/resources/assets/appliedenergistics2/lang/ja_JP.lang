@@ -53,6 +53,7 @@ tile.appliedenergistics2.BlockCraftingAccelerator4x.name=4コアクラフト並�
 tile.appliedenergistics2.BlockCraftingAccelerator16x.name=16コアクラフト並列処理ユニット
 tile.appliedenergistics2.BlockCraftingUnit.name=クラフティングユニット
 tile.appliedenergistics2.BlockMolecularAssembler.name=分子組立機
+tile.appliedenergistics2.BlockProductionStatsTracker.name=ME生産統計トラッカー
 
 chat.appliedenergistics2.ChestCannotReadStorageCell=MEチェストがストレージセルを読み取れませんでした
 chat.appliedenergistics2.OutOfRange=無線範囲外です

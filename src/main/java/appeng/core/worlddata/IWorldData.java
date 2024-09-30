@@ -36,8 +36,5 @@ public interface IWorldData {
     IWorldCompassData compassData();
 
     @Nonnull
-    IProductionStatsData productionStatsData();
-
-    @Nonnull
     IWorldSpawnData spawnData();
 }

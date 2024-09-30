@@ -48,6 +48,7 @@ import appeng.api.networking.IGridCacheRegistry;
 import appeng.api.networking.crafting.ICraftingGrid;
 import appeng.api.networking.energy.IEnergyGrid;
 import appeng.api.networking.pathing.IPathingGrid;
+import appeng.api.networking.productionstats.IProductionStatsGrid;
 import appeng.api.networking.security.ISecurityGrid;
 import appeng.api.networking.spatial.ISpatialCache;
 import appeng.api.networking.storage.IStorageGrid;
@@ -65,7 +66,6 @@ import appeng.core.features.registries.entries.VoidCellHandler;
 import appeng.core.localization.GuiText;
 import appeng.core.localization.PlayerMessages;
 import appeng.core.stats.PlayerStatsRegistration;
-import appeng.core.stats.ProductionStatsDataManager;
 import appeng.helpers.BlockingModeIgnoreList;
 import appeng.hooks.AETrading;
 import appeng.hooks.SoundEventHandler;
@@ -76,6 +76,7 @@ import appeng.me.cache.EnergyGridCache;
 import appeng.me.cache.GridStorageCache;
 import appeng.me.cache.P2PCache;
 import appeng.me.cache.PathGridCache;
+import appeng.me.cache.ProductionStatsCache;
 import appeng.me.cache.SecurityCache;
 import appeng.me.cache.SpatialPylonCache;
 import appeng.me.cache.TickManagerCache;
@@ -524,8 +525,6 @@ public final class Registration {
 
         FMLCommonHandler.instance().bus().register(TickHandler.INSTANCE);
         MinecraftForge.EVENT_BUS.register(TickHandler.INSTANCE);
-        FMLCommonHandler.instance().bus().register(ProductionStatsDataManager.getInstance());
-        MinecraftForge.EVENT_BUS.register(ProductionStatsDataManager.getInstance());
 
         MinecraftForge.EVENT_BUS.register(SoundEventHandler.INSTANCE);
 
@@ -542,6 +541,7 @@ public final class Registration {
         gcr.registerGridCache(ISpatialCache.class, SpatialPylonCache.class);
         gcr.registerGridCache(ISecurityGrid.class, SecurityCache.class);
         gcr.registerGridCache(ICraftingGrid.class, CraftingGridCache.class);
+        gcr.registerGridCache(IProductionStatsGrid.class, ProductionStatsCache.class);
 
         registries.externalStorage().addExternalStorageInterface(new AEExternalHandler());
 

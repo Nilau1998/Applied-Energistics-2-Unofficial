@@ -37,6 +37,7 @@ import appeng.block.misc.BlockInterface;
 import appeng.block.misc.BlockLightDetector;
 import appeng.block.misc.BlockPaint;
 import appeng.block.misc.BlockPatternOptimizationMatrix;
+import appeng.block.misc.BlockProductionStatsTracker;
 import appeng.block.misc.BlockQuartzGrowthAccelerator;
 import appeng.block.misc.BlockQuartzTorch;
 import appeng.block.misc.BlockSecurity;
@@ -148,6 +149,7 @@ public final class ApiBlocks implements IBlocks {
     private final ITileDefinition lightDetector;
     private final ITileDefinition paint;
     private final ITileDefinition patternOptimizationMatrix;
+    private final ITileDefinition productionStatsTracker;
     private final IBlockDefinition skyStoneStair;
     private final IBlockDefinition skyStoneBlockStair;
     private final IBlockDefinition skyStoneBrickStair;
@@ -244,6 +246,7 @@ public final class ApiBlocks implements IBlocks {
         this.lightDetector = constructor.registerTileDefinition(lightDetector);
         this.paint = constructor.registerTileDefinition(new BlockPaint());
         this.patternOptimizationMatrix = constructor.registerTileDefinition(new BlockPatternOptimizationMatrix());
+        this.productionStatsTracker = constructor.registerTileDefinition(new BlockProductionStatsTracker());
 
         this.skyStoneStair = constructor.registerBlockDefinition(new SkyStoneStairBlock(skyStone, 0));
         this.skyStoneBlockStair = constructor.registerBlockDefinition(new SkyStoneBlockStairBlock(skyStone, 1));
@@ -696,6 +699,11 @@ public final class ApiBlocks implements IBlocks {
     @Override
     public ITileDefinition patternsOptimizationMatrix() {
         return this.patternOptimizationMatrix;
+    }
+
+    @Override
+    public ITileDefinition productionStatsTracker() {
+        return this.productionStatsTracker;
     }
 
     public IBlockDefinition chunkLoader() {

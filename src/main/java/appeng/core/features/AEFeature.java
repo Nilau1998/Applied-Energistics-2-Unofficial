@@ -60,6 +60,7 @@ public enum AEFeature {
     UltraDenseCables(Constants.CATEGORY_NETWORK_FEATURES),
     QuantumNetworkBridge(Constants.CATEGORY_NETWORK_FEATURES),
     Channels(Constants.CATEGORY_NETWORK_FEATURES),
+    ProductionStats(Constants.CATEGORY_NETWORK_FEATURES),
 
     LevelEmitter(Constants.CATEGORY_NETWORK_BUSES),
     CraftingTerminal(Constants.CATEGORY_NETWORK_BUSES),

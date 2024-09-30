@@ -51,6 +51,7 @@ tile.appliedenergistics2.BlockCraftingAccelerator4x.name=4核心合成并行處�
 tile.appliedenergistics2.BlockCraftingAccelerator16x.name=16核心合成并行處理器
 tile.appliedenergistics2.BlockCraftingUnit.name=合成處理器
 tile.appliedenergistics2.BlockMolecularAssembler.name=分子集成室
+tile.appliedenergistics2.BlockProductionStatsTracker.name=ME生產統計追踪器
 
 chat.appliedenergistics2.ChestCannotReadStorageCell=ME箱子無法讀取存儲元件.
 chat.appliedenergistics2.SettingCleared=設置已清除.

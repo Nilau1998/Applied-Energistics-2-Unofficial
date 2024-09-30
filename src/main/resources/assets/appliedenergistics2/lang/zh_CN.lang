@@ -62,6 +62,7 @@ tile.appliedenergistics2.BlockCraftingAccelerator4096x.name=4096核并行处理�
 tile.appliedenergistics2.BlockCraftingUnit.name=合成单元
 tile.appliedenergistics2.BlockMolecularAssembler.name=分子装配室
 tile.appliedenergistics2.BlockPatternOptimizationMatrix.name=样板优化矩阵
+tile.appliedenergistics2.BlockProductionStatsTracker.name=ME生产统计追踪器
 
 # Stairs
 tile.appliedenergistics2.ChiseledQuartzStairBlock.name=錾制赛特斯石英楼梯

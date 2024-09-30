@@ -68,10 +68,6 @@ public class GuiProductionStatsList {
         scrollbar.setRange(0, 7, 1);
     }
 
-    public void setContainer(ContainerProductionStatsList container) {
-        this.container = container;
-    }
-
     public static int getWidth() {
         return LIST_TEXTURE_WIDTH;
     }

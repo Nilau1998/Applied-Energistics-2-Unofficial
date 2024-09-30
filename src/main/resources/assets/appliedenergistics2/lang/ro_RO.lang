@@ -41,6 +41,7 @@ tile.appliedenergistics2.BlockSkyStone.SmallBrick.name=Cărămizi mici de Piatr�
 tile.appliedenergistics2.BlockSkyChest.name=Cufăr de Piatră de Cer
 tile.appliedenergistics2.BlockSkyChest.Block.name=Cufăr de Bloc de Piatră de Cer
 tile.appliedenergistics2.BlockSkyCompass.name=Busolă de Meteorit
+tile.appliedenergistics2.BlockProductionStatsTracker.name=ME Urmăritor de Statistici de Producţie
 
 chat.appliedenergistics2.ChestCannotReadStorageCell=Cufăr ME nu poate citi celulă de stocare.
 chat.appliedenergistics2.OutOfRange=Wireless Afară din Zonă

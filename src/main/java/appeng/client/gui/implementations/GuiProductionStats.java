@@ -31,6 +31,8 @@ public class GuiProductionStats extends AEBaseGui {
     private GuiBridge originalGui;
     private GuiButton lastClickedButton;
 
+    // te will either be a terminal (AEBasePart) or the ProductionStatsTracker (AENetworkTile) itself, we need Object
+    // because AEBasePart and AEBaseTile do not share a common interface
     public GuiProductionStats(final InventoryPlayer inventoryPlayer, final Object te) {
         this(new ContainerProductionStats(inventoryPlayer, te));
 

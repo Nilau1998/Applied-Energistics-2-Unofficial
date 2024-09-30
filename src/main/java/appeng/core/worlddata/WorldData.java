@@ -52,7 +52,6 @@ public final class WorldData implements IWorldData {
     private final IWorldDimensionData dimensionData;
     private final IWorldGridStorageData storageData;
     private final IWorldCompassData compassData;
-    private final IProductionStatsData productionStatsData;
     private final IWorldSpawnData spawnData;
 
     private final List<IOnWorldStartable> startables;
@@ -61,7 +60,6 @@ public final class WorldData implements IWorldData {
     private final File ae2directory;
     private final File spawnDirectory;
     private final File compassDirectory;
-    private final File productionStatsDirectory;
 
     private final Configuration sharedConfig;
 
@@ -72,7 +70,6 @@ public final class WorldData implements IWorldData {
         this.ae2directory = new File(worldDirectory, AE2_DIRECTORY_NAME);
         this.spawnDirectory = new File(this.ae2directory, SPAWNDATA_DIR_NAME);
         this.compassDirectory = new File(this.ae2directory, COMPASS_DIR_NAME);
-        this.productionStatsDirectory = new File(this.ae2directory, PRODUCTION_STATS_DIR_NAME);
 
         final File settingsFile = new File(this.ae2directory, SETTING_FILE_NAME);
         this.sharedConfig = new Configuration(settingsFile, AEConfig.VERSION);
@@ -84,7 +81,6 @@ public final class WorldData implements IWorldData {
         final ThreadFactory compassThreadFactory = new CompassThreadFactory();
         final CompassService compassService = new CompassService(this.compassDirectory, compassThreadFactory);
         final CompassData compassData = new CompassData(this.compassDirectory, compassService);
-        final ProductionStatsData productionStatsData = new ProductionStatsData(this.productionStatsDirectory);
 
         final IWorldSpawnData spawnData = new SpawnData(this.spawnDirectory);
 
@@ -92,11 +88,10 @@ public final class WorldData implements IWorldData {
         this.dimensionData = dimensionData;
         this.storageData = storageData;
         this.compassData = compassData;
-        this.productionStatsData = productionStatsData;
         this.spawnData = spawnData;
 
-        this.startables = Lists.newArrayList(playerData, dimensionData, storageData, productionStatsData);
-        this.stoppables = Lists.newArrayList(playerData, dimensionData, storageData, compassData, productionStatsData);
+        this.startables = Lists.newArrayList(playerData, dimensionData, storageData);
+        this.stoppables = Lists.newArrayList(playerData, dimensionData, storageData, compassData);
     }
 
     /**
@@ -131,11 +126,6 @@ public final class WorldData implements IWorldData {
         // check if compass folder already exists, else create
         if (!this.compassDirectory.isDirectory() && !this.compassDirectory.mkdir()) {
             throw new IllegalStateException("Failed to create " + this.compassDirectory.getAbsolutePath());
-        }
-
-        // check if prod stats data dir already exists, else create
-        if (!this.productionStatsDirectory.isDirectory() && !this.productionStatsDirectory.mkdir()) {
-            throw new IllegalStateException("Failed to create " + this.productionStatsDirectory.getAbsolutePath());
         }
 
         // check if spawn data dir already exists, else create
@@ -187,12 +177,6 @@ public final class WorldData implements IWorldData {
     @Override
     public IWorldCompassData compassData() {
         return this.compassData;
-    }
-
-    @Nonnull
-    @Override
-    public IProductionStatsData productionStatsData() {
-        return this.productionStatsData;
     }
 
     @Nonnull

@@ -51,6 +51,7 @@ tile.appliedenergistics2.BlockCraftingAccelerator4x.name=4 Jádro re-procesní j
 tile.appliedenergistics2.BlockCraftingAccelerator16x.name=16 Jádro re-procesní jednotka
 tile.appliedenergistics2.BlockCraftingUnit.name=Výrobní jednotka
 tile.appliedenergistics2.BlockMolecularAssembler.name=Molekulární sestavovač
+tile.appliedenergistics2.BlockProductionStatsTracker.name=ME Sledování výrobních statistik
 
 chat.appliedenergistics2.ChestCannotReadStorageCell=ME truhla nemůže přečíst úložný článek.
 chat.appliedenergistics2.SettingCleared=Nastavení promazáno.

@@ -95,6 +95,10 @@ public enum ExtraBlockTextures {
     BlockMESecurityOn_Dark("BlockMESecurityOn_Dark"),
     BlockInscriberInside("BlockInscriberInside"),
 
+    BlockProductionStatsTrackerOn_Light("BlockProductionStatsTrackerOn_Light"),
+    BlockProductionStatsTrackerOn_Medium("BlockProductionStatsTrackerOn_Medium"),
+    BlockProductionStatsTrackerOn_Dark("BlockProductionStatsTrackerOn_Dark"),
+
     BlockQuartzGrowthAcceleratorOn("BlockQuartzGrowthAcceleratorOn"),
     BlockQuartzGrowthAcceleratorSideOn("BlockQuartzGrowthAcceleratorSideOn"),
 

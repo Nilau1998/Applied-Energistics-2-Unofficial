@@ -31,6 +31,7 @@ import appeng.api.networking.crafting.ICraftingGrid;
 import appeng.api.networking.energy.IEnergyGrid;
 import appeng.api.networking.events.MENetworkPowerIdleChange;
 import appeng.api.networking.pathing.IPathingGrid;
+import appeng.api.networking.productionstats.IProductionStatsGrid;
 import appeng.api.networking.security.ISecurityGrid;
 import appeng.api.networking.storage.IStorageGrid;
 import appeng.api.networking.ticking.ITickManager;
@@ -241,6 +242,21 @@ public class AENetworkProxy implements IGridBlock {
         }
 
         return sg;
+    }
+
+    public IProductionStatsGrid getProductionStats() throws GridAccessException {
+        final IGrid grid = this.getGrid();
+        if (grid == null) {
+            throw new GridAccessException();
+        }
+
+        final IProductionStatsGrid pg = grid.getCache(IProductionStatsGrid.class);
+
+        if (pg == null) {
+            throw new GridAccessException();
+        }
+
+        return pg;
     }
 
     @Override

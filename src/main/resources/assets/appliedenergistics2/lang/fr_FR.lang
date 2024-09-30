@@ -52,6 +52,7 @@ tile.appliedenergistics2.BlockCraftingAccelerator4x.name=4 Cœur Unité de co-tr
 tile.appliedenergistics2.BlockCraftingAccelerator16x.name=16 Cœur Unité de co-traitement
 tile.appliedenergistics2.BlockCraftingUnit.name=Unité de fabrication
 tile.appliedenergistics2.BlockMolecularAssembler.name=Assembleur moléculaire
+tile.appliedenergistics2.BlockProductionStatsTracker.name=ME Suivi des statistiques de production
 
 # Stairs
 tile.appliedenergistics2.ChiseledQuartzStairBlock.name=Escaliers de Quartz Certus ciselé

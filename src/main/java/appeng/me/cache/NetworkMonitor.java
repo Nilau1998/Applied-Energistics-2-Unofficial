@@ -21,6 +21,8 @@ import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import appeng.api.networking.productionstats.IProductionStatsGrid;
+import appeng.core.stats.ProductionStatsDataManager;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
@@ -195,6 +197,12 @@ public class NetworkMonitor<T extends IAEStack<T>> implements IMEMonitor<T> {
 
         if (diff.getStackSize() != 0) {
             this.postChangesToListeners(ImmutableList.of(diff), src);
+            // Update the productions stats cache
+            IProductionStatsGrid pg = this.myGridCache.getGrid().getCache(IProductionStatsGrid.class);
+            ProductionStatsDataManager dataManager = pg.getDataManager();
+            if (dataManager != null) {
+                dataManager.writeData(diff);
+            }
         }
 
         return leftOvers;

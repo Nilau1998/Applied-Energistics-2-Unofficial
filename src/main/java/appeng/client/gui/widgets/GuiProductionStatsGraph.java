@@ -1,7 +1,10 @@
 package appeng.client.gui.widgets;
 
+import appeng.api.storage.data.IAEItemStack;
 import appeng.client.gui.implementations.GuiProductionStats;
 import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
+
+import java.util.List;
 
 public class GuiProductionStatsGraph {
 
@@ -30,8 +33,13 @@ public class GuiProductionStatsGraph {
 
     public void initGui() {}
 
-    public void updateGraphData() {
-        // TODO: Implement this method
+    public void handleDataUpdate(List<IAEItemStack> data) {
+        for (IAEItemStack stack : data) {
+            if (!graph.hasGraph(stack)) {
+                graph.addGraph(stack, -1590974);
+            }
+            graph.addData(stack, stack.getStackSize());
+        }
     }
 
     public void drawFG(final int offsetX, final int offsetY, final int mouseX, final int mouseY) {

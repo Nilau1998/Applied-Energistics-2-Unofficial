@@ -16,6 +16,7 @@ public class ProductionStatsCache implements IProductionStatsGrid {
     private final IGrid myGrid;
     static final int STARTUP_DELAY = 20;
     private int startupTicks = 0;
+    private int ticksPassed = 0;
 
     private ProductionStatsDataManager dataManager = null;
     private List<TileProductionStatsTracker> trackingProviders = new ArrayList<>();

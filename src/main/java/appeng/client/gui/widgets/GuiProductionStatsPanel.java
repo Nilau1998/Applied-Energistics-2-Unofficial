@@ -1,6 +1,9 @@
 package appeng.client.gui.widgets;
 
+import appeng.api.storage.data.IAEItemStack;
 import appeng.client.gui.implementations.GuiProductionStats;
+
+import java.util.List;
 
 public class GuiProductionStatsPanel {
 
@@ -52,6 +55,11 @@ public class GuiProductionStatsPanel {
         if (intervals != null) {
             intervals.drawBG(offsetX, offsetY);
         }
+    }
+
+    public void handleDataUpdate(List<IAEItemStack> data) {
+        graph.handleDataUpdate(data);
+        list.handleDataUpdate(data);
     }
 
     public GuiGraph getGraph() {

@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import appeng.core.AEConfig;
 import net.minecraft.client.renderer.OpenGlHelper;
 
 import org.lwjgl.opengl.GL11;
@@ -34,11 +35,12 @@ public class GuiGraph {
             GL11.glColor4f(f, f1, f2, f3);
 
             GL11.glBegin(GL11.GL_LINE_STRIP);
-
-            for (int i = 0; i < graphData.size(); i++) {
+            float iXOffset = 0;
+            for (int i = graphData.size() - 1; i > 0; i--) {
                 GL11.glVertex2d(
-                        offsetX + i + GRAPH_LABELSPACE_X,
+                        offsetX + iXOffset + GRAPH_LABELSPACE_X,
                         offsetY + graphHeight - getRelativeHeight(i, graphHeight) - GRAPH_LABELSPACE_Y);
+                iXOffset += bufferToGraphRation;
             }
             GL11.glEnd();
 
@@ -46,7 +48,7 @@ public class GuiGraph {
         }
 
         public void addData(double data) {
-            if (graphData.size() == (graphWidth - GRAPH_LABELSPACE_X)) {
+            if (graphData.size() == bufferSize) {
                 graphData.remove(0);
             }
             graphData.add(data);
@@ -64,7 +66,6 @@ public class GuiGraph {
             return scale(Math.min(currentMax, graphData.get(index)));
         }
 
-        // https://stats.stackexchange.com/a/281165
         private double scale(double x) {
             return ((graphHeight - GRAPH_LABELSPACE_Y) * x) / currentMax;
         }
@@ -85,6 +86,8 @@ public class GuiGraph {
     // Decenter values, so we can push the grid a bit off for ticks/labels
     private static final int GRAPH_LABELSPACE_X = 11 + LABEL_SPACING;
     private static final int GRAPH_LABELSPACE_Y = 6 + LABEL_SPACING;
+    private static final float bufferSize = AEConfig.instance.productionStatsBufferSize;
+    private final float bufferToGraphRation;
     private final String[] labelsX;
     private final String[] labelsY;
     private double currentMax = 0;
@@ -102,6 +105,7 @@ public class GuiGraph {
         this.graphTickSizeY = (float) graphHeight / graphNumTicksY;
         this.labelsX = new String[graphNumTicksX];
         this.labelsY = new String[graphNumTicksY];
+        bufferToGraphRation = (float) (graphWidth - GRAPH_LABELSPACE_X) / bufferSize;
         determineIntervalLabels();
         recalculateYAxisLabels(0d);
     }
@@ -196,9 +200,13 @@ public class GuiGraph {
         graphs.put(key, new Graph(color));
     }
 
-    public void addData(Object key, double data) {
-        graphs.get(key).addData(data);
-        recalculateYAxisLabels(data);
+    public boolean hasGraph(Object key) {
+        return graphs.containsKey(key);
+    }
+
+    public void addData(Object key, double val) {
+        graphs.get(key).addData(val);
+        recalculateYAxisLabels(val);
     }
 
     // Sets a new upper limit starting from 0

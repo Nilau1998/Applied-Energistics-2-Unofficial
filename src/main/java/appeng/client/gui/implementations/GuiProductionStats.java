@@ -130,7 +130,8 @@ public class GuiProductionStats extends AEBaseGui {
     }
 
     public void handleDataUpdate(List<IAEItemStack> data) {
-        System.out.println(data);
+        leftPanel.handleDataUpdate(data);
+        rightPanel.handleDataUpdate(data);
     }
 
     public boolean hideItemPanelSlots(int tx, int ty, int tw, int th) {

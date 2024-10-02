@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import appeng.api.storage.data.IAEStack;
+import appeng.core.stats.productionstats.DataBuffer;
 import appeng.core.stats.productionstats.DataBufferHandler;
-import net.minecraft.nbt.NBTTagCompound;
 
 public final class ProductionStatsDataManager {
 
@@ -31,7 +31,6 @@ public final class ProductionStatsDataManager {
         }
     }
 
-    public boolean newBufferAdded = false;
     private final HashMap<IAEStack, DataBufferHandler> dataBuffers;
     private final HashMap<UUID, TimeIntervals> playerIntervals;
 
@@ -42,17 +41,20 @@ public final class ProductionStatsDataManager {
         this.playerIntervals = new HashMap<>();
     }
 
-    public void writeData(IAEStack stack, float value) {
+    public void writeData(IAEStack stack) {
         if (this.dataBuffers.get(stack) == null) {
             this.dataBuffers.put(stack, new DataBufferHandler());
-            this.newBufferAdded = true;
         }
-        this.dataBuffers.get(stack).writeToBuffer(value);
+        this.dataBuffers.get(stack).addData(stack.getStackSize());
     }
 
     public ArrayList<IAEStack> getLastSummedDataEntry(UUID player) {
         ArrayList<IAEStack> summedData = new ArrayList<>();
         for (IAEStack stack : this.dataBuffers.keySet()) {
+            DataBuffer buffer = dataBuffers.get(stack).getBuffer(playerIntervals.get(player));
+            if (buffer == null || !buffer.hasNewData()) {
+                continue;
+            }
             double stackSize = dataBuffers.get(stack).getBuffer(playerIntervals.get(player)).getSummedData();
             stack.setStackSize((long) stackSize);
             summedData.add(stack);
@@ -65,6 +67,7 @@ public final class ProductionStatsDataManager {
         this.playerIntervals.put(player, interval);
     }
 
+    // TODO: Multithread this?
     public void onTick() {
         for (DataBufferHandler buffer : this.dataBuffers.values()) {
             buffer.tickBuffer();

@@ -1,8 +1,11 @@
 package appeng.client.gui.widgets;
 
+import appeng.api.storage.data.IAEItemStack;
 import appeng.client.gui.implementations.GuiProductionStats;
 import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
 import appeng.container.implementations.ContainerProductionStatsList;
+
+import java.util.List;
 
 public class GuiProductionStatsList {
 
@@ -44,6 +47,10 @@ public class GuiProductionStatsList {
         parent.bindTexture("guis/productionstatslist.png");
         parent.drawTexturedModalRect(offsetXAdjusted, offsetY, 0, 0, LIST_TEXTURE_WIDTH, LIST_TEXTURE_HEIGHT);
         updateScrollbar();
+    }
+
+    public void handleDataUpdate(List<IAEItemStack> data) {
+
     }
 
     public void mouseClicked(final int x, final int y, final int button) {

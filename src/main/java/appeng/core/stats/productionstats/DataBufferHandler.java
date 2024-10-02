@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import appeng.core.AEConfig;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
@@ -14,15 +15,15 @@ public class DataBufferHandler {
 
     private final DataBuffer dataBuffer;
     public int GRAPH_COLOR = generateColor();
-    private static final int bufferSize = 20; // TODO: Change this?
+    private static final int bufferSize = AEConfig.instance.productionStatsBufferSize;
 
     public DataBufferHandler() {
         List<TimeIntervals> intervals = new ArrayList<>(Arrays.asList(TimeIntervals.class.getEnumConstants()));
         this.dataBuffer = new DataBuffer(intervals, bufferSize);
     }
 
-    public void writeToBuffer(double value) {
-        this.dataBuffer.writeToBuffer(value);
+    public void addData(double value) {
+        this.dataBuffer.addData(value);
     }
 
     public void tickBuffer() {
@@ -43,6 +44,11 @@ public class DataBufferHandler {
             }
         }
         return null;
+    }
+
+    public boolean hasPublishableData(TimeIntervals interval) {
+        DataBuffer buffer = getBuffer(interval);
+        return buffer != null && buffer.hasNewData();
     }
 
     public NBTTagCompound packBuffers() {

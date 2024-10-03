@@ -1,8 +1,11 @@
 package appeng.client.gui.widgets;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import appeng.api.storage.data.IAEItemStack;
+import appeng.api.storage.data.IAEStack;
 import appeng.client.gui.implementations.GuiProductionStats;
 import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
 import appeng.container.implementations.ContainerProductionStatsList;
@@ -50,6 +53,10 @@ public class GuiProductionStatsList {
     }
 
     public void handleDataUpdate(List<IAEItemStack> data) {
+
+    }
+
+    public void handleInitialData(HashMap<IAEStack, ArrayList<Double>> initialData) {
 
     }
 

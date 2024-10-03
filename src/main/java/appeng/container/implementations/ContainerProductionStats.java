@@ -39,4 +39,9 @@ public class ContainerProductionStats extends AEBaseContainer {
     public IGrid getGrid() {
         return grid;
     }
+
+    public void sendInitialData() {
+        productionPanelContainer.sendInitialData();
+        consumptionPanelContainer.sendInitialData();
+    }
 }

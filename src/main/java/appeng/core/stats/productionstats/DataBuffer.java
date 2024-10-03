@@ -129,7 +129,7 @@ public class DataBuffer {
         return data;
     }
 
-    private NBTTagList getRatesNBT() {
+    public NBTTagList getRatesNBT() {
         final NBTTagList data = new NBTTagList();
         for (Double datum : this.rates) {
             data.appendTag(new NBTTagDouble(datum));

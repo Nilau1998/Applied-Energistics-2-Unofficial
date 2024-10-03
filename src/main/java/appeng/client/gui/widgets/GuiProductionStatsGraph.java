@@ -1,8 +1,11 @@
 package appeng.client.gui.widgets;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import appeng.api.storage.data.IAEItemStack;
+import appeng.api.storage.data.IAEStack;
 import appeng.client.gui.implementations.GuiProductionStats;
 import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
 
@@ -39,6 +42,15 @@ public class GuiProductionStatsGraph {
                 graph.addGraph(stack, -1590974);
             }
             graph.addData(stack, stack.getStackSize());
+        }
+    }
+
+    public void handleInitialData(HashMap<IAEStack, ArrayList<Double>> initialData) {
+        for (IAEStack stack : initialData.keySet()) {
+            if (!graph.hasGraph(stack)) {
+                graph.addGraph(stack, -1590974);
+            }
+            graph.addAllData(stack, initialData.get(stack));
         }
     }
 

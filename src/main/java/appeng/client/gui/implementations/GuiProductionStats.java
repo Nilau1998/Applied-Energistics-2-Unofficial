@@ -1,5 +1,6 @@
 package appeng.client.gui.implementations;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 
 import appeng.api.storage.data.IAEItemStack;
+import appeng.api.storage.data.IAEStack;
 import appeng.client.gui.AEBaseGui;
 import appeng.client.gui.widgets.GuiProductionStatsPanel;
 import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
@@ -103,9 +105,7 @@ public class GuiProductionStats extends AEBaseGui {
         lastClickedButton = btnClicked;
         btnClicked.enabled = false;
 
-        TimeIntervals[] intervals = { TimeIntervals.FIVE_SECONDS, TimeIntervals.ONE_MINUTES, TimeIntervals.TEN_MINUTES,
-                TimeIntervals.ONE_HOURS, TimeIntervals.TEN_HOURS, TimeIntervals.FIFTY_HOURS,
-                TimeIntervals.TWO_FIFTY_HOURS };
+        TimeIntervals[] intervals = TimeIntervals.values();
 
         if (btnClicked.id >= 0 && btnClicked.id < intervals.length) {
             TimeIntervals interval = intervals[btnClicked.id];
@@ -132,6 +132,11 @@ public class GuiProductionStats extends AEBaseGui {
     public void handleDataUpdate(List<IAEItemStack> data) {
         leftPanel.handleDataUpdate(data);
         rightPanel.handleDataUpdate(data);
+    }
+
+    public void handleInitialData(HashMap<IAEStack, ArrayList<Double>> initialData) {
+        leftPanel.handleInitialData(initialData);
+        rightPanel.handleInitialData(initialData);
     }
 
     public boolean hideItemPanelSlots(int tx, int ty, int tw, int th) {

@@ -59,6 +59,11 @@ public class GuiGraph {
             }
         }
 
+        public void addAllData(ArrayList<Double> data) {
+            graphData = data;
+            currentMax = data.stream().max(Double::compare).orElse(0d);
+        }
+
         private double getRelativeHeight(int index, int height) {
             if (graphData.isEmpty() || graphData.get(index) < 0.1f) {
                 return 0;
@@ -208,6 +213,11 @@ public class GuiGraph {
     public void addData(Object key, double val) {
         graphs.get(key).addData(val);
         recalculateYAxisLabels(val);
+    }
+
+    public void addAllData(Object key, ArrayList<Double> data) {
+        graphs.get(key).addAllData(data);
+        recalculateYAxisLabels(data.stream().max(Double::compare).orElse(0d));
     }
 
     // Sets a new upper limit starting from 0

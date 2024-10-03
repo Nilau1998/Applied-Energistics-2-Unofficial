@@ -62,6 +62,18 @@ public final class ProductionStatsDataManager {
         return summedData;
     }
 
+    public HashMap<IAEStack, ArrayList<Double>> getRates(UUID player) {
+        HashMap<IAEStack, ArrayList<Double>> rates = new HashMap<>();
+        for (IAEStack stack : this.dataBuffers.keySet()) {
+            DataBuffer buffer = dataBuffers.get(stack).getBuffer(playerIntervals.get(player));
+            if (buffer == null) {
+                continue;
+            }
+            rates.put(stack, buffer.getRates());
+        }
+        return rates;
+    }
+
     // Track the player's interval in case multiple players are using the same buffer
     public void setInterval(UUID player, TimeIntervals interval) {
         this.playerIntervals.put(player, interval);

@@ -45,6 +45,7 @@ import appeng.core.sync.packets.PacketPartialItem;
 import appeng.core.sync.packets.PacketPatternMultiSet;
 import appeng.core.sync.packets.PacketPatternSlot;
 import appeng.core.sync.packets.PacketPatternValueSet;
+import appeng.core.sync.packets.PacketProductionStatsInitialData;
 import appeng.core.sync.packets.PacketProductionStatsInterval;
 import appeng.core.sync.packets.PacketProductionStatsUpdate;
 import appeng.core.sync.packets.PacketProgressBar;
@@ -132,7 +133,9 @@ public class AppEngPacketHandlerBase {
 
         PACKET_PRODUCTION_STATS_UPDATE(PacketProductionStatsUpdate.class),
 
-        PACKET_PRODUCTION_STATS_INTERVAL(PacketProductionStatsInterval.class);
+        PACKET_PRODUCTION_STATS_INTERVAL(PacketProductionStatsInterval.class),
+
+        PACKET_PRODUCTION_STATS_INITIAL_DATA(PacketProductionStatsInitialData.class);
 
         private final Class<? extends AppEngPacket> packetClass;
         private final Constructor<? extends AppEngPacket> packetConstructor;

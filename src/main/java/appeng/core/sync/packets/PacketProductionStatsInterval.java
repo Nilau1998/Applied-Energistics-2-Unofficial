@@ -74,8 +74,8 @@ public class PacketProductionStatsInterval extends AppEngPacket {
                     }
                 }
             }
+            conPS.sendInitialData();
             if (dataManager != null) {
-                System.out.println("Setting interval to " + this.intervals);
                 dataManager.setInterval(player.getUniqueID(), this.intervals);
             }
         }

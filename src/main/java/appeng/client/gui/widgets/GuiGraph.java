@@ -36,7 +36,7 @@ public class GuiGraph {
 
             GL11.glBegin(GL11.GL_LINE_STRIP);
             float iXOffset = 0;
-            for (int i = graphData.size() - 1; i > 0; i--) {
+            for (int i = 0; i < graphData.size(); i++) {
                 GL11.glVertex2d(
                         offsetX + iXOffset + GRAPH_LABELSPACE_X,
                         offsetY + graphHeight - getRelativeHeight(i, graphHeight) - GRAPH_LABELSPACE_Y);
@@ -67,7 +67,7 @@ public class GuiGraph {
         }
 
         private double scale(double x) {
-            return ((graphHeight - GRAPH_LABELSPACE_Y) * x) / currentMax;
+            return (graphHeight * x) / (currentMax * graphPadding);
         }
     }
 
@@ -90,6 +90,7 @@ public class GuiGraph {
     private final float bufferToGraphRation;
     private final String[] labelsX;
     private final String[] labelsY;
+    private final double graphPadding = 1.2;
     private double currentMax = 0;
 
     protected GuiGraph(AEBaseGui parent, int originX, int originY, int graphWidth, int graphHeight, int numTicksX,
@@ -168,13 +169,13 @@ public class GuiGraph {
         for (int i = 0; i < labelsY.length; i++) {
             float stringLength = parent.getFontRenderer().getStringWidth(labelsY[i]) * scale;
             float xPos = offsetX + GRAPH_LABELSPACE_X - LABEL_SPACING - stringLength;
-            float yPos = offsetY + graphHeight - 10f - (i * graphTickSizeY);
+            float yPos = offsetY + graphHeight - (i * graphTickSizeY) - GRAPH_LABELSPACE_Y - 1.5f;
             parent.getFontRenderer()
                     .drawString(labelsY[i], Math.round(xPos / scale), Math.round(yPos / scale), labelColor);
         }
 
         // X-Axis
-        for (int i = 0; i < labelsX.length; i++) {
+        for (int i = labelsX.length - 1; i >= 0; i--) {
             float stringLength = parent.getFontRenderer().getStringWidth(labelsX[i]);
             float halfStringLength = stringLength / 2f;
 
@@ -184,7 +185,7 @@ public class GuiGraph {
             parent.getFontRenderer().drawString(
                     labelsX[i],
                     Math.round((offsetX + GRAPH_LABELSPACE_X) / scale),
-                    Math.round((offsetY + graphHeight - GRAPH_LABELSPACE_Y + 3) / scale),
+                    Math.round((offsetY + graphHeight - GRAPH_LABELSPACE_Y + LABEL_SPACING) / scale),
                     labelColor);
 
             // Move back to start position and translate to next label
@@ -214,7 +215,8 @@ public class GuiGraph {
         if (data > currentMax) {
             currentMax = data;
         }
-        double stepSize = data / graphNumTicksY;
+        double paddedMax = currentMax * graphPadding;
+        double stepSize = paddedMax / graphNumTicksY;
         for (int i = 0; i < labelsY.length; i++) {
             labelsY[i] = formatLong(stepSize * i);
         }
@@ -266,8 +268,8 @@ public class GuiGraph {
         int relativeX = mouseX - offsetX - GRAPH_LABELSPACE_X;
         if (relativeX >= 0 && relativeX < graphWidth - GRAPH_LABELSPACE_X) {
             int relativeY = (graphHeight + offsetY - GRAPH_LABELSPACE_Y) - mouseY;
-            double yValue = (currentMax / graphHeight) * relativeY;
-            double xValue = ((double) relativeX / (graphWidth - GRAPH_LABELSPACE_X)) * timeInterval.getSeconds();
+            double yValue = ((currentMax * graphPadding) / graphHeight) * relativeY;
+            double xValue = timeInterval.getSeconds() - ((double) relativeX / (graphWidth - GRAPH_LABELSPACE_X - graphTickSizeX)) * timeInterval.getSeconds();
             return "X: " + String.format("%.2f", xValue) + " Y: " + String.format("%.2f", yValue); // TODO: Fix x value
         }
         return "";

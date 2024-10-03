@@ -3,18 +3,15 @@ package appeng.core.stats.productionstats;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
+
+import net.minecraft.nbt.NBTTagCompound;
 
 import appeng.core.AEConfig;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-
 import appeng.core.stats.ProductionStatsDataManager.TimeIntervals;
 
 public class DataBufferHandler {
 
     private final DataBuffer dataBuffer;
-    public int GRAPH_COLOR = generateColor();
     private static final int bufferSize = AEConfig.instance.productionStatsBufferSize;
 
     public DataBufferHandler() {
@@ -55,34 +52,15 @@ public class DataBufferHandler {
         final NBTTagCompound data = new NBTTagCompound();
         for (TimeIntervals interval : TimeIntervals.values()) {
             DataBuffer buffer = getBuffer(interval);
-            data.setTag(interval.name(), buffer.getDataNBT());
-            data.setInteger(interval.name() + "TickCounter", buffer.getTickCounter());
-            data.setDouble(interval.name() + "Rate", buffer.getRate());
+            data.setTag(interval.name(), buffer.getBufferNBT());
         }
-        data.setInteger("GraphColor", this.GRAPH_COLOR);
         return data;
     }
 
     public void unpackBuffers(NBTTagCompound data) {
         for (TimeIntervals interval : TimeIntervals.values()) {
-            NBTTagList values = (NBTTagList) data.getTag(interval.name());
-            getBuffer(interval).setDataFromNBT(values);
-            getBuffer(interval).setTickCounter(data.getInteger(interval.name() + "TickCounter"));
-            getBuffer(interval).setRate(data.getDouble(interval.name() + "Rate"));
+            NBTTagCompound values = (NBTTagCompound) data.getTag(interval.name());
+            getBuffer(interval).setBufferNBT(values);
         }
-        this.GRAPH_COLOR = data.getInteger("GraphColor");
-    }
-
-    private int generateColor() {
-        Random rand = new Random();
-        return getColorDecimal(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
-    }
-
-    private int getColorDecimal(int red, int green, int blue) {
-        int rgb = (255 << 24);
-        rgb = rgb | (red << 16);
-        rgb = rgb | (green << 8);
-        rgb = rgb | (blue);
-        return rgb;
     }
 }

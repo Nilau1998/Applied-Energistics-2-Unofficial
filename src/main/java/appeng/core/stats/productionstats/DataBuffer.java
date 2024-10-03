@@ -1,9 +1,11 @@
 package appeng.core.stats.productionstats;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagList;
 
@@ -79,11 +81,11 @@ public class DataBuffer {
     }
 
     /*
-     * Calculate at which rate items are being written into incoming date. Since this data comes in every tick, the incomingData
-     * deque carries the last 5 seconds. Meaning that the sum of incomingData is items per 5 seconds.
+     * Calculate at which rate items are being written into incoming date. Since this data comes in every tick, the
+     * incomingData deque carries the last 5 seconds. Meaning that the sum of incomingData is items per 5 seconds.
      */
     private void calculateRate() {
-        double ratio = ((1/5d) / (1/60d)); // 1/5s to 1/60s
+        double ratio = ((1 / 5d) / (1 / 60d)); // 1/5s to 1/60s
         double rate = this.incomingData.stream().mapToDouble(Double::doubleValue).sum() * ratio;
         this.rates.add(rate);
         if (this.rates.size() > this.bufferSize) {
@@ -100,7 +102,7 @@ public class DataBuffer {
     }
 
     public double getLastDataPoint() {
-        if (!this.rates.isEmpty()){
+        if (!this.rates.isEmpty()) {
             return this.rates.getLast();
         } else {
             return 0d;
@@ -119,7 +121,15 @@ public class DataBuffer {
         return this.interval;
     }
 
-    public NBTTagList getDataNBT() {
+    public NBTTagCompound getBufferNBT() {
+        final NBTTagCompound data = new NBTTagCompound();
+        data.setTag("rates", getRatesNBT());
+        data.setTag("incomingData", getIncomingDataNBT());
+        data.setInteger("tickCounter", this.tickCounter);
+        return data;
+    }
+
+    private NBTTagList getRatesNBT() {
         final NBTTagList data = new NBTTagList();
         for (Double datum : this.rates) {
             data.appendTag(new NBTTagDouble(datum));
@@ -127,9 +137,31 @@ public class DataBuffer {
         return data;
     }
 
-    public void setDataFromNBT(NBTTagList data) {
+    private NBTTagList getIncomingDataNBT() {
+        final NBTTagList data = new NBTTagList();
+        for (Double datum : this.incomingData) {
+            data.appendTag(new NBTTagDouble(datum));
+        }
+        return data;
+    }
+
+    public void setBufferNBT(NBTTagCompound data) {
+        NBTTagList nbtRates = (NBTTagList) data.getTag("rates");
+        setRatesFromNBT(nbtRates);
+        NBTTagList incomingData = (NBTTagList) data.getTag("incomingData");
+        setIncomingDataFromNBT(incomingData);
+        this.tickCounter = data.getInteger("tickCounter");
+    }
+
+    private void setRatesFromNBT(NBTTagList data) {
         for (int i = 0; i < data.tagCount(); i++) {
             this.rates.add(data.func_150309_d(i));
+        }
+    }
+
+    private void setIncomingDataFromNBT(NBTTagList data) {
+        for (int i = 0; i < data.tagCount(); i++) {
+            this.incomingData.add(data.func_150309_d(i));
         }
     }
 
@@ -141,12 +173,8 @@ public class DataBuffer {
         this.tickCounter = tickCounter;
     }
 
-    public double getRate() {
-        return 0;
-    }
-
-    public void setRate(double rate) {
-
+    public ArrayList<Double> getRates() {
+        return new ArrayList<>(this.rates);
     }
 
     // Used to determine when to save the sum to the child buffer

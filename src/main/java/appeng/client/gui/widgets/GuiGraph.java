@@ -4,12 +4,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import appeng.core.AEConfig;
 import net.minecraft.client.renderer.OpenGlHelper;
 
 import org.lwjgl.opengl.GL11;
 
 import appeng.client.gui.AEBaseGui;
+import appeng.core.AEConfig;
 import appeng.core.stats.ProductionStatsDataManager.TimeIntervals;
 
 public class GuiGraph {
@@ -269,7 +269,9 @@ public class GuiGraph {
         if (relativeX >= 0 && relativeX < graphWidth - GRAPH_LABELSPACE_X) {
             int relativeY = (graphHeight + offsetY - GRAPH_LABELSPACE_Y) - mouseY;
             double yValue = ((currentMax * graphPadding) / graphHeight) * relativeY;
-            double xValue = timeInterval.getSeconds() - ((double) relativeX / (graphWidth - GRAPH_LABELSPACE_X - graphTickSizeX)) * timeInterval.getSeconds();
+            double xValue = timeInterval.getSeconds()
+                    - ((double) relativeX / (graphWidth - GRAPH_LABELSPACE_X - graphTickSizeX))
+                            * timeInterval.getSeconds();
             return "X: " + String.format("%.2f", xValue) + " Y: " + String.format("%.2f", yValue); // TODO: Fix x value
         }
         return "";

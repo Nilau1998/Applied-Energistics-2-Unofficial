@@ -1,9 +1,9 @@
 package appeng.client.gui.widgets;
 
+import java.util.List;
+
 import appeng.api.storage.data.IAEItemStack;
 import appeng.client.gui.implementations.GuiProductionStats;
-
-import java.util.List;
 
 public class GuiProductionStatsPanel {
 

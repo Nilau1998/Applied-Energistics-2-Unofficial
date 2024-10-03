@@ -1,5 +1,11 @@
 package appeng.container.implementations;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.UUID;
+
+import net.minecraft.entity.player.EntityPlayerMP;
+
 import appeng.api.networking.productionstats.IProductionStatsGrid;
 import appeng.api.storage.data.IAEStack;
 import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
@@ -8,11 +14,6 @@ import appeng.core.stats.ProductionStatsDataManager;
 import appeng.core.sync.network.NetworkHandler;
 import appeng.core.sync.packets.PacketProductionStatsUpdate;
 import appeng.util.Platform;
-import net.minecraft.entity.player.EntityPlayerMP;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.UUID;
 
 public class ContainerProductionStatsList {
 

@@ -1,10 +1,10 @@
 package appeng.container.implementations;
 
+import net.minecraft.entity.player.InventoryPlayer;
+
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridNode;
 import appeng.api.networking.security.IActionHost;
-import net.minecraft.entity.player.InventoryPlayer;
-
 import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
 import appeng.container.AEBaseContainer;
 

@@ -57,7 +57,7 @@ public class DataBufferHandler {
             DataBuffer buffer = getBuffer(interval);
             data.setTag(interval.name(), buffer.getDataNBT());
             data.setInteger(interval.name() + "TickCounter", buffer.getTickCounter());
-            data.setDouble(interval.name() + "SummedData", buffer.getSummedData());
+            data.setDouble(interval.name() + "Rate", buffer.getRate());
         }
         data.setInteger("GraphColor", this.GRAPH_COLOR);
         return data;
@@ -68,7 +68,7 @@ public class DataBufferHandler {
             NBTTagList values = (NBTTagList) data.getTag(interval.name());
             getBuffer(interval).setDataFromNBT(values);
             getBuffer(interval).setTickCounter(data.getInteger(interval.name() + "TickCounter"));
-            getBuffer(interval).setSummedData(data.getDouble(interval.name() + "SummedData"));
+            getBuffer(interval).setRate(data.getDouble(interval.name() + "Rate"));
         }
         this.GRAPH_COLOR = data.getInteger("GraphColor");
     }

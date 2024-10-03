@@ -48,14 +48,14 @@ public final class ProductionStatsDataManager {
         this.dataBuffers.get(stack).addData(stack.getStackSize());
     }
 
-    public ArrayList<IAEStack> getLastSummedDataEntry(UUID player) {
+    public ArrayList<IAEStack> getLastRateEntry(UUID player) {
         ArrayList<IAEStack> summedData = new ArrayList<>();
         for (IAEStack stack : this.dataBuffers.keySet()) {
             DataBuffer buffer = dataBuffers.get(stack).getBuffer(playerIntervals.get(player));
             if (buffer == null || !buffer.hasNewData()) {
                 continue;
             }
-            double stackSize = dataBuffers.get(stack).getBuffer(playerIntervals.get(player)).getSummedData();
+            double stackSize = dataBuffers.get(stack).getBuffer(playerIntervals.get(player)).getLastDataPoint();
             stack.setStackSize((long) stackSize);
             summedData.add(stack);
         }

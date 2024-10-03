@@ -1,8 +1,6 @@
 package appeng.container.implementations;
 
-import appeng.api.networking.IGrid;
 import appeng.api.networking.productionstats.IProductionStatsGrid;
-import appeng.api.networking.security.IActionHost;
 import appeng.api.storage.data.IAEStack;
 import appeng.client.gui.widgets.GuiProductionStatsPanel.PanelSide;
 import appeng.core.AELog;
@@ -32,7 +30,7 @@ public class ContainerProductionStatsList {
             IProductionStatsGrid pg = this.parent.getGrid().getCache(IProductionStatsGrid.class);
             ProductionStatsDataManager dataManager = pg.getDataManager();
             if (dataManager != null) {
-                ArrayList<IAEStack> data = dataManager.getLastSummedDataEntry(playerUUID);
+                ArrayList<IAEStack> data = dataManager.getLastRateEntry(playerUUID);
                 if (!data.isEmpty()) {
                     try {
                         PacketProductionStatsUpdate packet = new PacketProductionStatsUpdate();
